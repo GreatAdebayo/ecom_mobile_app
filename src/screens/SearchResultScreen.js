@@ -14,80 +14,79 @@ import Search from "../components/Search";
 
 const SearchResultScreen = ({ navigation }) => {
   return (
-    <View
+    <SafeAreaView
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
         backgroundColor: "#F5F5F8",
       }}
+      edges={["top"]}
     >
-      <SafeAreaView>
-        <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View
+          style={[
+            tw`mx-10 my-2`,
+            {
+              flexDirection: "row",
+              alignItems: "center",
+            },
+          ]}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+            style={{ flex: 1 }}
+          >
+            <AntDesign name="arrowleft" size={24} color="#200E32" />
+          </TouchableOpacity>
           <View
             style={[
-              tw`mx-10 my-2`,
+              tw`p-4`,
               {
+                flex: 5,
+                borderRadius: 30,
+                borderColor: "gray",
+                borderWidth: 0.3,
                 flexDirection: "row",
                 alignItems: "center",
               },
             ]}
           >
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}
-              style={{ flex: 1 }}
-            >
-              <AntDesign name="arrowleft" size={24} color="#200E32" />
-            </TouchableOpacity>
-            <View
+            <Ionicons name="search" size={24} color="black" />
+            <TextInput
+              placeholder="Search Gadget"
               style={[
-                tw`p-4`,
-                {
-                  flex: 5,
-                  borderRadius: 30,
-                  borderColor: "gray",
-                  borderWidth: 0.3,
-                  flexDirection: "row",
-                  alignItems: "center",
-                },
+                tw`ml-2 w-full`,
+                { fontFamily: "Raleway_400Regular", fontSize: 17 },
               ]}
-            >
-              <Ionicons name="search" size={24} color="black" />
-              <TextInput
-                placeholder="Search Gadget"
-                style={[
-                  tw`ml-2`,
-                  { fontFamily: "Raleway_400Regular", fontSize: 17 },
-                ]}
-                placeholderTextColor="gray"
-                autoCapitalize="none"
-              />
-            </View>
+              placeholderTextColor="gray"
+              autoCapitalize="none"
+            />
           </View>
-          <View
-            style={[
-              tw`mt-6`,
-              {
-                alignItems: "center",
-                justifyContent: "center",
-              },
-            ]}
+        </View>
+        <View
+          style={[
+            tw`mt-6`,
+            {
+              alignItems: "center",
+              justifyContent: "center",
+            },
+          ]}
+        >
+          <Text
+            style={{
+              fontSize: 23,
+              fontFamily: "Raleway_600SemiBold",
+            }}
           >
-            <Text
-              style={{
-                fontSize: 23,
-                fontFamily: "Raleway_600SemiBold",
-              }}
-            >
-              Found 6 Gadgets
-            </Text>
-          </View>
-          {/* <NotFound /> */}
-          <Search />
-        </ScrollView>
-      </SafeAreaView>
-    </View>
+            Found 6 Gadgets
+          </Text>
+        </View>
+        {/* <NotFound /> */}
+        <Search />
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

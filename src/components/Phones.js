@@ -9,7 +9,7 @@ const Phones = () => {
     <Fragment>
       <ScrollView
         style={[
-          tw`my-15 ml-5`,
+          tw`my-10 ml-5`,
           {
             flexDirection: "row",
           },
@@ -20,13 +20,17 @@ const Phones = () => {
         {products.map((product, index) => (
           <TouchableOpacity
             style={[
-              tw`bg-white py-7 px-15 mr-6`,
+              tw`bg-white px-15 mr-6`,
               {
                 borderRadius: 15,
                 alignItems: "center",
+                justifyContent: "center",
               },
             ]}
             key={index}
+            onPress={() => {
+              navigation.navigate("gadget_details");
+            }}
           >
             <Image
               source={require("../assets/iphone.png")}
@@ -38,7 +42,7 @@ const Phones = () => {
                 { fontFamily: "Raleway_600SemiBold", fontSize: 20 },
               ]}
             >
-              Iphone
+              Apple Watch
             </Text>
             <Text
               style={[
@@ -46,7 +50,7 @@ const Phones = () => {
                 { color: "gray", fontFamily: "Raleway_400Regular" },
               ]}
             >
-              12 Pro Max .Ash
+              Series 6 .Red
             </Text>
             <Text
               style={[
@@ -54,21 +58,26 @@ const Phones = () => {
                 { color: "#5956E9", fontFamily: "Raleway_600SemiBold" },
               ]}
             >
-              $999
+              $399
             </Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <View style={[{ alignItems: "flex-end" }, tw`mx-5`]}>
+      <TouchableOpacity
+        style={[{ alignItems: "flex-end" }, tw`m-5`]}
+        onPress={() => {
+          navigation.navigate("wearables");
+        }}
+      >
         <Text
           style={[
-            tw`text-base mt-3`,
+            tw`text-base`,
             { color: "#5956E9", fontFamily: "Raleway_600SemiBold" },
           ]}
         >
-          see more <AntDesign name="arrowright" size={18} color="black" />
+          see more <AntDesign name="arrowright" size={18} color="#5956E9" />
         </Text>
-      </View>
+      </TouchableOpacity>
     </Fragment>
   );
 };

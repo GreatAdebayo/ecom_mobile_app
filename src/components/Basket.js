@@ -1,20 +1,19 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, Pressable } from "react-native";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import { Fragment } from "react";
+import { SwipeListView } from "react-native-swipe-list-view";
+import { Octicons } from "@expo/vector-icons";
 
 const Basket = () => {
   const products = ["s", "d", "e"];
   const navigation = useNavigation();
   return (
     <Fragment>
-      {products.map((product, index) => (
-        <TouchableOpacity
-          key={index}
-          onPress={() => {
-            navigation.navigate("gadget_details");
-          }}
-        >
+      <SwipeListView
+        showsVerticalScrollIndicator={false}
+        data={products}
+        renderItem={(data, rowMap) => (
           <View
             style={[
               tw`bg-white rounded-xl h-40 p-4 mb-3`,
@@ -31,15 +30,21 @@ const Basket = () => {
             >
               <Image
                 source={require("../assets/laptop.png")}
-                style={tw`w-30 h-30`}
+                style={tw`w-20 h-20`}
               />
             </View>
-            <View style={{ flex: 1.5, justifyContent: "center" }}>
-              <Text
-                style={[tw`text-base`, { fontFamily: "Raleway_600SemiBold" }]}
+            <View style={{ flex: 2, justifyContent: "center" }}>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate("gadget_details");
+                }}
               >
-                2020 Apple iPad Air 10.9"
-              </Text>
+                <Text
+                  style={[tw`text-base`, { fontFamily: "Raleway_600SemiBold" }]}
+                >
+                  2020 Apple iPad Air 10.9"
+                </Text>
+              </Pressable>
               <View style={tw`mt-2`}>
                 <Text
                   style={{
@@ -125,8 +130,17 @@ const Basket = () => {
               </View>
             </View>
           </View>
-        </TouchableOpacity>
-      ))}
+        )}
+        renderHiddenItem={(data, rowMap) => (
+          <View style={{ alignItems: "flex-end" }}>
+            <View style={[tw`py-15 px-5`, { justifyContent: "center" }]}>
+              <Octicons name="trash" size={24} color="red" />
+            </View>
+          </View>
+        )}
+        rightOpenValue={-75}
+      />
+
       <View
         style={[
           tw`mt-10`,
@@ -162,7 +176,7 @@ const Basket = () => {
       </View>
       <TouchableOpacity
         style={[
-          tw`mt-15 py-6 rounded-lg px-3 shadow-lg`,
+          tw`my-10 py-6 rounded-lg px-3 shadow-lg`,
           {
             flexDirection: "row",
             alignItems: "center",

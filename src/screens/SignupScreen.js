@@ -12,7 +12,7 @@ import { Zocial } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const SignInScreen = ({ navigation }) => {
+const SignUpScreen = ({ navigation }) => {
   return (
     <SafeAreaView
       style={{
@@ -42,7 +42,7 @@ const SignInScreen = ({ navigation }) => {
                 fontFamily: "Raleway_800ExtraBold",
               }}
             >
-              Welcome
+              Hello
             </Text>
             <Text
               style={{
@@ -51,7 +51,7 @@ const SignInScreen = ({ navigation }) => {
                 fontFamily: "Raleway_600SemiBold",
               }}
             >
-              Gadgets at your finger tips
+              Get your cheap Gadgets here
             </Text>
           </View>
         </View>
@@ -74,8 +74,31 @@ const SignInScreen = ({ navigation }) => {
               },
             ]}
           >
-            SignIn
+            SignUp
           </Text>
+          <View
+            style={[
+              tw`px-4 py-6 my-4 `,
+              {
+                borderRadius: 30,
+                borderColor: "#5956E9",
+                borderWidth: 0.3,
+                flexDirection: "row",
+                alignItems: "center",
+              },
+            ]}
+          >
+            <Zocial name="email" size={20} color="#868686" />
+            <TextInput
+              placeholder="Username"
+              style={[
+                tw`ml-2 w-full`,
+                { fontFamily: "Raleway_400Regular", fontSize: 17 },
+              ]}
+              placeholderTextColor="gray"
+              autoCapitalize="none"
+            />
+          </View>
           <View
             style={[
               tw`px-4 py-6 my-4`,
@@ -127,13 +150,6 @@ const SignInScreen = ({ navigation }) => {
               Show
             </Text>
           </View>
-          <View style={tw`mt-3`}>
-            <Text
-              style={[{ color: "#5956E9", fontFamily: "Raleway_600SemiBold" }]}
-            >
-              Forgot Password?
-            </Text>
-          </View>
 
           <TouchableOpacity
             style={[
@@ -155,13 +171,13 @@ const SignInScreen = ({ navigation }) => {
                 { color: "white", fontFamily: "Raleway_700Bold" },
               ]}
             >
-              SignIn
+              SignUp
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[{ alignItems: "center" }, tw`my-5`]}
             onPress={() => {
-              navigation.navigate("signup");
+              navigation.navigate("signin");
             }}
           >
             <Text
@@ -170,7 +186,7 @@ const SignInScreen = ({ navigation }) => {
                 { color: "#5956E9", fontFamily: "Raleway_600SemiBold" },
               ]}
             >
-              Create Account
+              SignIn Instead
             </Text>
           </TouchableOpacity>
         </View>
@@ -179,4 +195,4 @@ const SignInScreen = ({ navigation }) => {
   );
 };
 
-export default SignInScreen;
+export default SignUpScreen;

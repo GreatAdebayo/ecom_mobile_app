@@ -11,7 +11,7 @@ const Wearables = () => {
     <Fragment>
       <ScrollView
         style={[
-          tw`my-15 ml-5`,
+          tw`my-10 ml-5`,
           {
             flexDirection: "row",
           },
@@ -22,10 +22,11 @@ const Wearables = () => {
         {products.map((product, index) => (
           <TouchableOpacity
             style={[
-              tw`bg-white py-7 px-15 mr-6`,
+              tw`bg-white px-15 mr-6`,
               {
                 borderRadius: 15,
                 alignItems: "center",
+                justifyContent: "center",
               },
             ]}
             key={index}
@@ -65,18 +66,18 @@ const Wearables = () => {
         ))}
       </ScrollView>
       <TouchableOpacity
-        style={[{ alignItems: "flex-end" }, tw`mx-5`]}
+        style={[{ alignItems: "flex-end" }, tw`m-5`]}
         onPress={() => {
           navigation.navigate("wearables");
         }}
       >
         <Text
           style={[
-            tw`text-base mt-3`,
+            tw`text-base`,
             { color: "#5956E9", fontFamily: "Raleway_600SemiBold" },
           ]}
         >
-          see more <AntDesign name="arrowright" size={18} color="black" />
+          see more <AntDesign name="arrowright" size={18} color="#5956E9" />
         </Text>
       </TouchableOpacity>
     </Fragment>

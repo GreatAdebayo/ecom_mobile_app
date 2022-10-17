@@ -1,21 +1,19 @@
 import tw from "twrnc";
 import { View, TouchableOpacity } from "react-native";
-import { Foundation } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { useState } from "react";
+import { Octicons } from "@expo/vector-icons";
+import { GeneralContext } from "../contexts/general/state";
+import { useContext } from "react";
 
 const TabContent = ({ state, descriptors, navigation }) => {
-  const [defaultBg, setDefaultBg] = useState(`#E5E5E5`);
+  const { bgColor, toggleColor } = useContext(GeneralContext);
   return (
     <View
       style={[
-        tw`py-5 h-25`,
+        tw`h-20 py-5`,
         {
-          alignItems: "flex-start",
           flexDirection: "row",
-          backgroundColor: defaultBg,
+          backgroundColor: bgColor,
         },
       ]}
     >
@@ -43,11 +41,9 @@ const TabContent = ({ state, descriptors, navigation }) => {
           }
 
           if (index === 0) {
-            setDefaultBg("#E5E5E5");
-          } else if (index === 1 || index === 2 || index === 3) {
-            setDefaultBg("#F5F5F8");
+            toggleColor(`#E5E5E5`);
           } else {
-            setDefaultBg("#E5E5E5");
+            toggleColor(`#F5F5F8`);
           }
         };
         const onLongPress = () => {
@@ -68,46 +64,34 @@ const TabContent = ({ state, descriptors, navigation }) => {
             onLongPress={onLongPress}
             style={{
               flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <View
-              style={{
-                alignItems: "center",
-              }}
-            >
-              {index === 0 &&
-                (isFocused ? (
-                  <Foundation name="home" size={35} color="#5956E9" />
-                ) : (
-                  <Foundation name="home" size={35} color="#200E32" />
-                ))}
-              {index === 1 &&
-                (isFocused ? (
-                  <Ionicons name="ios-heart-circle" size={35} color="#5956E9" />
-                ) : (
-                  <Ionicons name="ios-heart-circle" size={35} color="#200E32" />
-                ))}
-              {index === 2 &&
-                (isFocused ? (
-                  <FontAwesome name="user-o" size={32} color="#5956E9" />
-                ) : (
-                  <FontAwesome name="user-o" size={32} color="#200E32" />
-                ))}
-              {index === 3 &&
-                (isFocused ? (
-                  <MaterialIcons
-                    name="shopping-cart"
-                    size={32}
-                    color="#5956E9"
-                  />
-                ) : (
-                  <MaterialIcons
-                    name="shopping-cart"
-                    size={32}
-                    color="#200E32"
-                  />
-                ))}
-            </View>
+            {index === 0 &&
+              (isFocused ? (
+                <Octicons name="home" size={30} color="#5956E9" />
+              ) : (
+                <Octicons name="home" size={30} color="black" />
+              ))}
+            {index === 1 &&
+              (isFocused ? (
+                <FontAwesome name="heart" size={30} color="#5956E9" />
+              ) : (
+                <FontAwesome name="heart" size={30} color="black" />
+              ))}
+            {index === 2 &&
+              (isFocused ? (
+                <FontAwesome name="user-o" size={30} color="#5956E9" />
+              ) : (
+                <FontAwesome name="user-o" size={30} color="black" />
+              ))}
+            {index === 3 &&
+              (isFocused ? (
+                <FontAwesome name="shopping-cart" size={30} color="#5956E9" />
+              ) : (
+                <FontAwesome name="shopping-cart" size={30} color="black" />
+              ))}
           </TouchableOpacity>
         );
       })}

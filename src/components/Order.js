@@ -31,10 +31,10 @@ const Order = () => {
             >
               <Image
                 source={require("../assets/laptop.png")}
-                style={tw`w-30 h-30`}
+                style={tw`w-20 h-20`}
               />
             </View>
-            <View style={{ flex: 1.5, justifyContent: "center" }}>
+            <View style={{ flex: 2, justifyContent: "center" }}>
               <Text
                 style={[tw`text-base`, { fontFamily: "Raleway_600SemiBold" }]}
               >
@@ -48,6 +48,18 @@ const Order = () => {
                   }}
                 >
                   $579
+                </Text>
+              </View>
+              <View style={tw`mt-2`}>
+                <Text
+                  style={[
+                    tw`text-green-700`,
+                    {
+                      fontFamily: "Raleway_600SemiBold",
+                    },
+                  ]}
+                >
+                  Shipped
                 </Text>
               </View>
             </View>

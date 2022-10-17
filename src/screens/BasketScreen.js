@@ -1,28 +1,30 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import Basket from "../components/Basket";
 import EmptyBaasket from "../components/EmptyBasket";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const BasketScreen = ({ navigation }) => {
   return (
-    <View
+    <SafeAreaView
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
         backgroundColor: "#F5F5F8",
       }}
+      edges={["top"]}
     >
-      <ScrollView
+      <View
         style={[
-          tw`pt-20 px-8`,
+          tw`pt-3 px-8`,
           {
             flex: 1,
           },
         ]}
-        showsVerticalScrollIndicator={false}
+        flexGrow={1}
       >
         <View
           style={[
@@ -52,8 +54,8 @@ const BasketScreen = ({ navigation }) => {
         </View>
         <Basket />
         {/* <EmptyBaasket /> */}
-      </ScrollView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 

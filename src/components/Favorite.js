@@ -31,10 +31,10 @@ const Favorite = () => {
             >
               <Image
                 source={require("../assets/laptop.png")}
-                style={tw`w-30 h-30`}
+                style={tw`w-20 h-20`}
               />
             </View>
-            <View style={{ flex: 1.5, justifyContent: "center" }}>
+            <View style={{ flex: 2, justifyContent: "center" }}>
               <Text
                 style={[tw`text-base`, { fontFamily: "Raleway_600SemiBold" }]}
               >

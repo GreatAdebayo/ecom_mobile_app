@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Text, View, Pressable } from "react-native";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
@@ -8,8 +8,10 @@ import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { GeneralContext } from "../contexts/general/state";
 
 const DrawerContent = () => {
+  const { toggleColor } = useContext(GeneralContext);
   const navigation = useNavigation();
   const menu = [
     {
@@ -30,7 +32,7 @@ const DrawerContent = () => {
     {
       title: "Delivery",
       icon: <SimpleLineIcons name="handbag" size={22} color="white" />,
-      path: "delivery",
+      path: "orders",
     },
     {
       title: "Support",
@@ -48,12 +50,13 @@ const DrawerContent = () => {
         },
       ]}
     >
-      <SafeAreaView style={tw`mx-10 mt-30`}>
+      <SafeAreaView style={tw`mx-10 mt-30`} edges={["top"]}>
         {menu.map((item, index) => (
           <Pressable
             style={[tw`mb-2`, { flexDirection: "row", alignItems: "center" }]}
             onPress={() => {
               navigation.navigate(item.path);
+              toggleColor(`#F5F5F8`);
             }}
             key={index}
           >

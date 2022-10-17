@@ -4,19 +4,22 @@ import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const GadgetDetailsScreen = ({ navigation }) => {
   return (
-    <View
+    <SafeAreaView
+      flexGrow={1}
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
         backgroundColor: "#F6F6F9",
       }}
+      edges={["top"]}
     >
       <View
         style={[
-          tw`pt-18 px-8`,
+          tw`pt-2 px-8`,
           {
             flex: 1,
           },
@@ -55,7 +58,7 @@ const GadgetDetailsScreen = ({ navigation }) => {
           },
         ]}
       >
-        <View style={tw`mx-5`}>
+        <View style={tw`mx-3`}>
           <View>
             <Text style={[{ fontFamily: "Raleway_600SemiBold", fontSize: 25 }]}>
               2020 Apple iPad Air 10.9"
@@ -199,7 +202,7 @@ const GadgetDetailsScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

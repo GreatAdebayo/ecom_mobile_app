@@ -1,27 +1,32 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import NoFavorite from "../components/NoFavorite";
 import Favorite from "../components/Favorite";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { GeneralContext } from "../contexts/general/state";
 
 const FavoriteScreen = ({ navigation }) => {
+  const { toggleColor } = useContext(GeneralContext);
   return (
-    <View
+    <SafeAreaView
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
         backgroundColor: "#F5F5F8",
       }}
+      edges={["top"]}
     >
       <ScrollView
         style={[
-          tw`pt-20 px-8`,
+          tw`pt-3 px-8`,
           {
             flex: 1,
           },
         ]}
         showsVerticalScrollIndicator={false}
+        flexGrow={1}
       >
         <View
           style={[
@@ -35,6 +40,7 @@ const FavoriteScreen = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => {
               navigation.goBack();
+              toggleColor(`#E5E5E5`);
             }}
           >
             <AntDesign name="arrowleft" size={24} color="#200E32" />
@@ -50,10 +56,9 @@ const FavoriteScreen = ({ navigation }) => {
           <View></View>
         </View>
         <NoFavorite />
-
         {/* <Favorite /> */}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

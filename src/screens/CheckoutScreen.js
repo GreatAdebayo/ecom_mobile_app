@@ -1,14 +1,15 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const CheckoutScreen = ({ navigation }) => {
   return (
-    <View
+    <SafeAreaView
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
@@ -17,12 +18,11 @@ const CheckoutScreen = ({ navigation }) => {
     >
       <View
         style={[
-          tw`pt-20 px-8`,
+          tw`pt-3 px-8`,
           {
             flex: 1,
           },
         ]}
-        showsVerticalScrollIndicator={false}
       >
         <View
           style={[
@@ -70,7 +70,7 @@ const CheckoutScreen = ({ navigation }) => {
           </Text>
         </View>
         <View style={tw`mt-5`}>
-          <View style={tw`bg-white rounded-xl h-40 p-8 mb-3`}>
+          <View style={tw`bg-white rounded-xl  p-8 mb-3 py-10`}>
             <View style={{ flexDirection: "row" }}>
               <FontAwesome name="user-o" size={22} color="black" />
               <View style={tw`ml-2`}>
@@ -97,7 +97,7 @@ const CheckoutScreen = ({ navigation }) => {
                     },
                   ]}
                 >
-                  Rosin Doe
+                  Address: 43 Oxford Road M13 4GR Manchester, UK
                 </Text>
               </View>
             </View>
@@ -175,7 +175,7 @@ const CheckoutScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

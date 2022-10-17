@@ -22,6 +22,7 @@ import {
   Raleway_900Black_Italic,
 } from "@expo-google-fonts/raleway";
 import StackNavigator from "./src/navigation/StackNavigator";
+import { GeneralState } from "./src/contexts/general/state";
 
 const App = () => {
   const [fontsLoaded] = useFonts({
@@ -49,10 +50,12 @@ const App = () => {
   }
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <StackNavigator />
-      </NavigationContainer>
-      <StatusBar style="dark" />
+      <GeneralState>
+        <NavigationContainer>
+          <StackNavigator />
+        </NavigationContainer>
+        <StatusBar style="dark" />
+      </GeneralState>
     </SafeAreaProvider>
   );
 };
