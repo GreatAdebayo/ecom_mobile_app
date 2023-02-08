@@ -1,13 +1,15 @@
 import { View, Text, TouchableOpacity, Image, Pressable } from "react-native";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { Octicons } from "@expo/vector-icons";
+import { GeneralContext } from "../contexts/general/state";
 
 const Basket = () => {
   const products = ["s", "d", "e"];
   const navigation = useNavigation();
+  const { colorScheme } = useContext(GeneralContext);
   return (
     <Fragment>
       <SwipeListView
@@ -16,10 +18,11 @@ const Basket = () => {
         renderItem={(data, rowMap) => (
           <View
             style={[
-              tw`bg-white rounded-xl h-40 p-4 mb-3`,
+              tw`rounded-lg h-40 p-4 mb-3`,
               {
                 flexDirection: "row",
                 alignItems: "center",
+                backgroundColor: colorScheme === "light" ? "white" : "black",
               },
             ]}
           >
@@ -40,7 +43,13 @@ const Basket = () => {
                 }}
               >
                 <Text
-                  style={[tw`text-base`, { fontFamily: "Raleway_600SemiBold" }]}
+                  style={[
+                    tw`text-base`,
+                    {
+                      fontFamily: "Raleway_600SemiBold",
+                      color: colorScheme === "light" ? "black" : "white",
+                    },
+                  ]}
                 >
                   2020 Apple iPad Air 10.9"
                 </Text>
@@ -67,7 +76,7 @@ const Basket = () => {
                 <Text
                   style={{
                     fontFamily: "Raleway_400Regular",
-                    color: "gray",
+                    color: colorScheme === "light" ? "gray" : "white",
                   }}
                 >
                   Quantity{" "}
@@ -103,6 +112,7 @@ const Basket = () => {
                   <Text
                     style={{
                       fontFamily: "Raleway_600SemiBold",
+                      color: colorScheme === "light" ? "black" : "white",
                     }}
                   >
                     1
@@ -156,6 +166,7 @@ const Basket = () => {
             {
               fontFamily: "Raleway_400Regular",
               fontSize: 18,
+              color: colorScheme === "light" ? "black" : "white",
             },
           ]}
         >

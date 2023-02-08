@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "mobile_app",
-    "slug": "mobile_app",
+    "slug": "ecommerceapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,7 +14,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -26,6 +28,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d2730072-cf0e-4303-82da-b62e6f1c6d46"
+      }
+    },
+    "owner": "greatestman"
   }
 }

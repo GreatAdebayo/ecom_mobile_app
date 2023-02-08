@@ -1,8 +1,10 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import tw from "twrnc";
+import { GeneralContext } from "../contexts/general/state";
 
 const NoFavorite = () => {
+  const { colorScheme } = useContext(GeneralContext);
   return (
     <Fragment>
       <View style={{ alignItems: "center" }}>
@@ -10,7 +12,11 @@ const NoFavorite = () => {
         <Text
           style={[
             tw`text-base`,
-            { fontFamily: "Raleway_700Bold", fontSize: 20 },
+            {
+              fontFamily: "Raleway_700Bold",
+              fontSize: 20,
+              color: colorScheme === "light" ? "black" : "white",
+            },
           ]}
         >
           No Favorites Yet
@@ -19,7 +25,10 @@ const NoFavorite = () => {
           <Text
             style={[
               tw`text-base`,
-              { fontFamily: "Raleway_400Regular", color: "gray" },
+              {
+                fontFamily: "Raleway_400Regular",
+                color: colorScheme === "light" ? "gray" : "white",
+              },
             ]}
           >
             Hit the blue button down below to Create an order

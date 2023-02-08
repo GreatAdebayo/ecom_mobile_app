@@ -3,15 +3,18 @@ import { Text, View, Pressable } from "react-native";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  Feather,
+  MaterialIcons,
+  FontAwesome,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { GeneralContext } from "../contexts/general/state";
 
 const DrawerContent = () => {
-  const { toggleColor } = useContext(GeneralContext);
+  const { toggleColor, colorScheme } = useContext(GeneralContext);
   const navigation = useNavigation();
   const menu = [
     {
@@ -39,6 +42,15 @@ const DrawerContent = () => {
       icon: <MaterialIcons name="support-agent" size={24} color="white" />,
       path: "support",
     },
+    {
+      title: `${colorScheme === "light" ? "dark" : "light"} Mode`,
+      icon:
+        colorScheme === "light" ? (
+          <Ionicons name="moon" size={20} color="white" />
+        ) : (
+          <Feather name="sun" size={20} color="white" />
+        ),
+    },
   ];
 
   return (
@@ -55,8 +67,9 @@ const DrawerContent = () => {
           <Pressable
             style={[tw`mb-2`, { flexDirection: "row", alignItems: "center" }]}
             onPress={() => {
-              navigation.navigate(item.path);
-              toggleColor(`#F5F5F8`);
+              item.path
+                ? navigation.navigate(item.path)
+                : toggleColor(colorScheme === "light" ? "dark" : "light");
             }}
             key={index}
           >
@@ -72,7 +85,7 @@ const DrawerContent = () => {
             >
               <Text
                 style={[
-                  tw`text-base`,
+                  tw`text-base capitalize`,
                   {
                     color: "white",
                     fontFamily: "Raleway_700Bold",

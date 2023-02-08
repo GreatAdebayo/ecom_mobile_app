@@ -1,5 +1,5 @@
 import { View, Text, TextInput, Pressable } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,8 +7,10 @@ import Wearables from "../components/Wearables";
 import Laptops from "../components/Laptops";
 import Phones from "../components/Phones";
 import Accessories from "../components/Accesories";
+import { GeneralContext } from "../contexts/general/state";
 
 const HomeScreen = ({ navigation }) => {
+  const { colorScheme } = useContext(GeneralContext);
   const [view, setView] = useState({
     wearables: true,
     laptops: false,
@@ -30,7 +32,7 @@ const HomeScreen = ({ navigation }) => {
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
-        backgroundColor: "#E5E5E5",
+        backgroundColor: colorScheme === "light" ? "#E5E5E5" : "#1A1A1A",
       }}
       edges={["top"]}
     >
@@ -49,7 +51,11 @@ const HomeScreen = ({ navigation }) => {
             navigation.toggleDrawer();
           }}
         >
-          <Ionicons name="ios-menu-outline" size={42} color="gray" />
+          <Ionicons
+            name="ios-menu-outline"
+            size={42}
+            color={colorScheme === "light" ? "gray" : "white"}
+          />
         </Pressable>
         <Pressable
           style={[
@@ -67,14 +73,18 @@ const HomeScreen = ({ navigation }) => {
             navigation.navigate("search_result");
           }}
         >
-          <Ionicons name="search" size={24} color="black" />
+          <Ionicons
+            name="search"
+            size={24}
+            color={colorScheme === "light" ? "black" : "white"}
+          />
           <TextInput
             placeholder="Search Gadget"
             style={[
               tw`pl-2 w-full`,
               { fontFamily: "Raleway_400Regular", fontSize: 17 },
             ]}
-            placeholderTextColor="gray"
+            placeholderTextColor={colorScheme === "light" ? "gray" : "white"}
             autoCapitalize="none"
           />
         </Pressable>
@@ -84,17 +94,19 @@ const HomeScreen = ({ navigation }) => {
           style={{
             fontSize: 30,
             fontFamily: "Raleway_700Bold",
+            color: colorScheme === "light" ? "black" : "white",
           }}
         >
-          Order online
+          Order online,
         </Text>
         <Text
           style={{
             fontSize: 30,
             fontFamily: "Raleway_700Bold",
+            color: colorScheme === "light" ? "black" : "white",
           }}
         >
-          collect in store
+          delivered to your door step.
         </Text>
       </View>
       <View
@@ -119,7 +131,11 @@ const HomeScreen = ({ navigation }) => {
             style={[
               tw`text-base`,
               {
-                color: view.wearables ? "#5956E9" : "gray",
+                color: view.wearables
+                  ? "#5956E9"
+                  : colorScheme === "light"
+                  ? "gray"
+                  : "white",
                 fontFamily: view.wearables
                   ? "Raleway_600SemiBold"
                   : "Raleway_400Regular",
@@ -142,7 +158,11 @@ const HomeScreen = ({ navigation }) => {
             style={[
               tw`text-base`,
               {
-                color: view.laptops ? "#5956E9" : "gray",
+                color: view.laptops
+                  ? "#5956E9"
+                  : colorScheme === "light"
+                  ? "gray"
+                  : "white",
                 fontFamily: view.laptops
                   ? "Raleway_600SemiBold"
                   : "Raleway_400Regular",
@@ -165,7 +185,11 @@ const HomeScreen = ({ navigation }) => {
             style={[
               tw`text-base`,
               {
-                color: view.phones ? "#5956E9" : "gray",
+                color: view.phones
+                  ? "#5956E9"
+                  : colorScheme === "light"
+                  ? "gray"
+                  : "white",
                 fontFamily: view.phones
                   ? "Raleway_600SemiBold"
                   : "Raleway_400Regular",
@@ -188,7 +212,11 @@ const HomeScreen = ({ navigation }) => {
             style={[
               tw`text-base`,
               {
-                color: view.accessories ? "#5956E9" : "gray",
+                color: view.accessories
+                  ? "#5956E9"
+                  : colorScheme === "light"
+                  ? "gray"
+                  : "white",
                 fontFamily: view.accessories
                   ? "Raleway_600SemiBold"
                   : "Raleway_400Regular",

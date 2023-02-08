@@ -8,13 +8,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { GeneralContext } from "../contexts/general/state";
 
 const OrdersScreen = ({ navigation }) => {
-  const { toggleColor } = useContext(GeneralContext);
+  const { colorScheme } = useContext(GeneralContext);
   return (
     <SafeAreaView
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
-        backgroundColor: "#F5F5F8",
+        backgroundColor: colorScheme === "light" ? "#F5F5F8" : "#1A1A1A",
       }}
       edges={["top"]}
     >
@@ -39,15 +39,22 @@ const OrdersScreen = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => {
               navigation.goBack();
-              toggleColor(`#E5E5E5`);
             }}
           >
-            <AntDesign name="arrowleft" size={24} color="#200E32" />
+            <AntDesign
+              name="arrowleft"
+              size={24}
+              color={colorScheme === "light" ? "#200E32" : "white"}
+            />
           </TouchableOpacity>
           <Text
             style={[
               tw`text-base`,
-              { fontFamily: "Raleway_600SemiBold", fontSize: 18 },
+              {
+                fontFamily: "Raleway_600SemiBold",
+                fontSize: 18,
+                color: colorScheme === "light" ? "black" : "white",
+              },
             ]}
           >
             Order History
@@ -55,7 +62,6 @@ const OrdersScreen = ({ navigation }) => {
           <View></View>
         </View>
         {/* <NoOrder /> */}
-
         <Order />
       </ScrollView>
     </SafeAreaView>

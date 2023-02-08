@@ -6,13 +6,15 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import tw from "twrnc";
 import { Zocial } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { GeneralContext } from "../contexts/general/state";
 
 const SignInScreen = ({ navigation }) => {
+  const { colorScheme } = useContext(GeneralContext);
   return (
     <SafeAreaView
       style={{
@@ -59,7 +61,7 @@ const SignInScreen = ({ navigation }) => {
           style={[
             tw`p-8 mt-10`,
             {
-              backgroundColor: "white",
+              backgroundColor: colorScheme === "light" ? "white" : "#1A1A1A",
               flex: 2,
               borderTopLeftRadius: 20,
               borderTopRightRadius: 20,
@@ -71,6 +73,7 @@ const SignInScreen = ({ navigation }) => {
               tw`text-base`,
               {
                 fontFamily: "Raleway_700Bold",
+                color: colorScheme === "light" ? "black" : "white",
               },
             ]}
           >
@@ -122,14 +125,22 @@ const SignInScreen = ({ navigation }) => {
               />
             </View>
             <Text
-              style={[{ color: "#5956E9", fontFamily: "Raleway_600SemiBold" }]}
+              style={{
+                color: colorScheme === "light" ? "#5956E9" : "white",
+                fontFamily: "Raleway_600SemiBold",
+              }}
             >
               Show
             </Text>
           </View>
           <View style={tw`mt-3`}>
             <Text
-              style={[{ color: "#5956E9", fontFamily: "Raleway_600SemiBold" }]}
+              style={[
+                {
+                  color: colorScheme === "light" ? "#5956E9" : "white",
+                  fontFamily: "Raleway_600SemiBold",
+                },
+              ]}
             >
               Forgot Password?
             </Text>
@@ -167,7 +178,10 @@ const SignInScreen = ({ navigation }) => {
             <Text
               style={[
                 tw`text-base`,
-                { color: "#5956E9", fontFamily: "Raleway_600SemiBold" },
+                {
+                  color: colorScheme === "light" ? "#5956E9" : "white",
+                  fontFamily: "Raleway_600SemiBold",
+                },
               ]}
             >
               Create Account

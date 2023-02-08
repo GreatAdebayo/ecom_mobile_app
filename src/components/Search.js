@@ -1,11 +1,13 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
+import { GeneralContext } from "../contexts/general/state";
 
 const Search = () => {
   const products = ["s", "d", "e", "s", "d", "e"];
   const navigation = useNavigation();
+  const { colorScheme } = useContext(GeneralContext);
   return (
     <View
       style={[
@@ -19,11 +21,12 @@ const Search = () => {
       {products.map((product, index) => (
         <TouchableOpacity
           style={[
-            tw`bg-white py-5 m-2 px-2`,
+            tw`py-5 m-2 px-2`,
             {
               borderRadius: 15,
               alignItems: "center",
               flexBasis: "45%",
+              backgroundColor: colorScheme === "light" ? "white" : "black",
             },
           ]}
           key={index}
@@ -33,12 +36,16 @@ const Search = () => {
         >
           <Image
             source={require("../assets/laptop.png")}
-            style={tw`w-20 h-20`}
+            style={tw`w-20 h-20 rounded-lg`}
           />
           <Text
             style={[
               tw`mt-5`,
-              { fontFamily: "Raleway_600SemiBold", fontSize: 20 },
+              {
+                fontFamily: "Raleway_600SemiBold",
+                fontSize: 20,
+                color: colorScheme === "light" ? "black" : "white",
+              },
             ]}
           >
             Apple MacBook
@@ -46,7 +53,10 @@ const Search = () => {
           <Text
             style={[
               tw`text-base mt-3`,
-              { color: "gray", fontFamily: "Raleway_400Regular" },
+              {
+                color: colorScheme === "light" ? "gray" : "white",
+                fontFamily: "Raleway_400Regular",
+              },
             ]}
           >
             2019 .Ash

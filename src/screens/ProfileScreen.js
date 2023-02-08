@@ -8,13 +8,13 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { GeneralContext } from "../contexts/general/state";
 
 const ProfileScreen = ({ navigation }) => {
-  const { toggleColor } = useContext(GeneralContext);
+  const { colorScheme } = useContext(GeneralContext);
   return (
     <SafeAreaView
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
-        backgroundColor: "#F5F5F8",
+        backgroundColor: colorScheme === "light" ? "#F5F5F8" : "#1A1A1A",
       }}
     >
       <View
@@ -37,15 +37,22 @@ const ProfileScreen = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => {
               navigation.goBack();
-              toggleColor(`#E5E5E5`);
             }}
           >
-            <AntDesign name="arrowleft" size={24} color="#200E32" />
+            <AntDesign
+              name="arrowleft"
+              size={24}
+              color={colorScheme === "light" ? "#200E32" : "white"}
+            />
           </TouchableOpacity>
           <Text
             style={[
               tw`text-base`,
-              { fontFamily: "Raleway_600SemiBold", fontSize: 18 },
+              {
+                fontFamily: "Raleway_600SemiBold",
+                fontSize: 18,
+                color: colorScheme === "light" ? "black" : "white",
+              },
             ]}
           >
             My Profile
@@ -56,10 +63,11 @@ const ProfileScreen = ({ navigation }) => {
         <View style={tw`mt-5`}>
           <View
             style={[
-              tw`bg-white rounded-xl mb-3 p-10`,
+              tw`rounded-xl mb-3 p-10`,
               {
                 alignItems: "center",
                 justifyContent: "center",
+                backgroundColor: colorScheme === "light" ? "white" : "black",
               },
             ]}
           >
@@ -74,6 +82,7 @@ const ProfileScreen = ({ navigation }) => {
                   {
                     fontFamily: "Raleway_600SemiBold",
                     fontSize: 18,
+                    color: colorScheme === "light" ? "black" : "white",
                   },
                 ]}
               >
@@ -81,13 +90,18 @@ const ProfileScreen = ({ navigation }) => {
               </Text>
             </View>
             <View style={[tw`mt-3`, { flexDirection: "row" }]}>
-              <Ionicons name="ios-location-outline" size={25} color="black" />
+              <Ionicons
+                name="ios-location-outline"
+                size={25}
+                color={colorScheme === "light" ? "black" : "white"}
+              />
               <Text
                 style={[
                   tw`text-base`,
                   {
                     fontFamily: "Raleway_400Regular",
                     fontSize: 18,
+                    color: colorScheme === "light" ? "black" : "white",
                   },
                 ]}
               >
@@ -99,10 +113,11 @@ const ProfileScreen = ({ navigation }) => {
         <View style={tw`mt-5`}>
           <View
             style={[
-              tw`bg-white rounded-xl p-5`,
+              tw`rounded-xl p-5`,
               {
                 flexDirection: "row",
                 justifyContent: "space-between",
+                backgroundColor: colorScheme === "light" ? "white" : "black",
               },
             ]}
           >
@@ -112,6 +127,7 @@ const ProfileScreen = ({ navigation }) => {
                 {
                   fontFamily: "Raleway_600SemiBold",
                   fontSize: 18,
+                  color: colorScheme === "light" ? "black" : "white",
                 },
               ]}
             >
@@ -121,7 +137,7 @@ const ProfileScreen = ({ navigation }) => {
               <MaterialIcons
                 name="keyboard-arrow-right"
                 size={24}
-                color="black"
+                color={colorScheme === "light" ? "black" : "white"}
               />
             </TouchableOpacity>
           </View>

@@ -2,19 +2,23 @@ import { createContext, useReducer, useEffect } from "react";
 import generalReducer from "./reducer";
 import { SET_COLOR_MODE, IS_CONNECTED } from "./action";
 import NetInfo from "@react-native-community/netinfo";
+import { useColorScheme } from "react-native";
+
 export const GeneralContext = createContext();
 
 export const GeneralState = (props) => {
+  let colorScheme = useColorScheme();
+
   const initialState = {
-    bgColor: `#E5E5E5`,
+    colorScheme,
     isConnected: true,
   };
   const [state, dispatch] = useReducer(generalReducer, initialState);
 
-  const toggleColor = (index) => {
+  const toggleColor = (scheme) => {
     dispatch({
       type: SET_COLOR_MODE,
-      payload: index,
+      payload: scheme,
     });
   };
 
@@ -31,7 +35,7 @@ export const GeneralState = (props) => {
     <GeneralContext.Provider
       value={{
         toggleColor,
-        bgColor: state.bgColor,
+        colorScheme: state.colorScheme,
         isConnected: state.isConnected,
       }}
     >

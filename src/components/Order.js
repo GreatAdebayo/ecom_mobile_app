@@ -1,11 +1,13 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
+import { GeneralContext } from "../contexts/general/state";
 
 const Order = () => {
   const products = ["s", "d", "e"];
   const navigation = useNavigation();
+  const { colorScheme } = useContext(GeneralContext);
   return (
     <Fragment>
       {products.map((product, index) => (
@@ -17,10 +19,11 @@ const Order = () => {
         >
           <View
             style={[
-              tw`bg-white rounded-xl h-40 p-4 mb-3`,
+              tw`rounded-xl h-40 p-4 mb-3`,
               {
                 flexDirection: "row",
                 alignItems: "center",
+                backgroundColor: colorScheme === "light" ? "white" : "black",
               },
             ]}
           >
@@ -31,12 +34,18 @@ const Order = () => {
             >
               <Image
                 source={require("../assets/laptop.png")}
-                style={tw`w-20 h-20`}
+                style={tw`w-20 h-20 rounded-lg`}
               />
             </View>
             <View style={{ flex: 2, justifyContent: "center" }}>
               <Text
-                style={[tw`text-base`, { fontFamily: "Raleway_600SemiBold" }]}
+                style={[
+                  tw`text-base`,
+                  {
+                    fontFamily: "Raleway_600SemiBold",
+                    color: colorScheme === "light" ? "black" : "white",
+                  },
+                ]}
               >
                 2020 Apple iPad Air 10.9"
               </Text>

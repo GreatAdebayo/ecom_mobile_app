@@ -1,12 +1,14 @@
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
-import React, { Fragment } from "react";
+import { Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import React, { Fragment, useContext } from "react";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { GeneralContext } from "../contexts/general/state";
 
 const Laptops = () => {
   const navigation = useNavigation();
   const products = ["s", "d", "e"];
+  const { colorScheme } = useContext(GeneralContext);
   return (
     <Fragment>
       <ScrollView
@@ -22,11 +24,12 @@ const Laptops = () => {
         {products.map((product, index) => (
           <TouchableOpacity
             style={[
-              tw`bg-white px-15 mr-6`,
+              tw`px-15 mr-6`,
               {
                 borderRadius: 15,
                 alignItems: "center",
                 justifyContent: "center",
+                backgroundColor: "black",
               },
             ]}
             key={index}
@@ -36,12 +39,16 @@ const Laptops = () => {
           >
             <Image
               source={require("../assets/laptop.png")}
-              style={tw`w-30 h-30`}
+              style={tw`w-30 h-30 rounded-lg`}
             />
             <Text
               style={[
                 tw`mt-5`,
-                { fontFamily: "Raleway_600SemiBold", fontSize: 20 },
+                {
+                  fontFamily: "Raleway_600SemiBold",
+                  fontSize: 20,
+                  color: colorScheme === "light" ? "black" : "white",
+                },
               ]}
             >
               Apple Watch
@@ -49,7 +56,10 @@ const Laptops = () => {
             <Text
               style={[
                 tw`text-base mt-3`,
-                { color: "gray", fontFamily: "Raleway_400Regular" },
+                {
+                  color: colorScheme === "light" ? "gray" : "white",
+                  fontFamily: "Raleway_400Regular",
+                },
               ]}
             >
               Series 6 .Red
@@ -74,10 +84,18 @@ const Laptops = () => {
         <Text
           style={[
             tw`text-base`,
-            { color: "#5956E9", fontFamily: "Raleway_600SemiBold" },
+            {
+              color: colorScheme === "light" ? "#5956E9" : "white",
+              fontFamily: "Raleway_600SemiBold",
+            },
           ]}
         >
-          see more <AntDesign name="arrowright" size={18} color="#5956E9" />
+          see more{" "}
+          <AntDesign
+            name="arrowright"
+            size={18}
+            color={colorScheme === "light" ? "#5956E9" : "white"}
+          />
         </Text>
       </TouchableOpacity>
     </Fragment>

@@ -1,19 +1,21 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import Basket from "../components/Basket";
 import EmptyBaasket from "../components/EmptyBasket";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { GeneralContext } from "../contexts/general/state";
 
 const BasketScreen = ({ navigation }) => {
+  const { colorScheme } = useContext(GeneralContext);
   return (
     <SafeAreaView
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
-        backgroundColor: "#F5F5F8",
+        backgroundColor: colorScheme === "light" ? "#F5F5F8" : "#1A1A1A",
       }}
       edges={["top"]}
     >
@@ -40,12 +42,20 @@ const BasketScreen = ({ navigation }) => {
               navigation.goBack();
             }}
           >
-            <AntDesign name="arrowleft" size={24} color="#200E32" />
+            <AntDesign
+              name="arrowleft"
+              size={24}
+              color={colorScheme === "light" ? "#200E32" : "white"}
+            />
           </TouchableOpacity>
           <Text
             style={[
               tw`text-base`,
-              { fontFamily: "Raleway_600SemiBold", fontSize: 18 },
+              {
+                fontFamily: "Raleway_600SemiBold",
+                fontSize: 18,
+                color: colorScheme === "light" ? "black" : "white",
+              },
             ]}
           >
             Basket

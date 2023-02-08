@@ -6,14 +6,14 @@ import { GeneralContext } from "../contexts/general/state";
 import { useContext } from "react";
 
 const TabContent = ({ state, descriptors, navigation }) => {
-  const { bgColor, toggleColor } = useContext(GeneralContext);
+  const { colorScheme } = useContext(GeneralContext);
   return (
     <View
       style={[
         tw`h-20 py-5`,
         {
           flexDirection: "row",
-          backgroundColor: bgColor,
+          backgroundColor: colorScheme === "light" ? "#E5E5E5" : "#1A1A1A",
         },
       ]}
     >
@@ -38,12 +38,6 @@ const TabContent = ({ state, descriptors, navigation }) => {
           if (!isFocused && !event.defaultPrevented) {
             // The `merge: true` option makes sure that the params inside the tab screen are preserved
             navigation.navigate({ name: route.name, merge: true });
-          }
-
-          if (index === 0) {
-            toggleColor(`#E5E5E5`);
-          } else {
-            toggleColor(`#F5F5F8`);
           }
         };
         const onLongPress = () => {
@@ -72,25 +66,41 @@ const TabContent = ({ state, descriptors, navigation }) => {
               (isFocused ? (
                 <Octicons name="home" size={30} color="#5956E9" />
               ) : (
-                <Octicons name="home" size={30} color="black" />
+                <Octicons
+                  name="home"
+                  size={30}
+                  color={colorScheme === "light" ? "black" : "white"}
+                />
               ))}
             {index === 1 &&
               (isFocused ? (
                 <FontAwesome name="heart" size={30} color="#5956E9" />
               ) : (
-                <FontAwesome name="heart" size={30} color="black" />
+                <FontAwesome
+                  name="heart"
+                  size={30}
+                  color={colorScheme === "light" ? "black" : "white"}
+                />
               ))}
             {index === 2 &&
               (isFocused ? (
                 <FontAwesome name="user-o" size={30} color="#5956E9" />
               ) : (
-                <FontAwesome name="user-o" size={30} color="black" />
+                <FontAwesome
+                  name="user-o"
+                  size={30}
+                  color={colorScheme === "light" ? "black" : "white"}
+                />
               ))}
             {index === 3 &&
               (isFocused ? (
                 <FontAwesome name="shopping-cart" size={30} color="#5956E9" />
               ) : (
-                <FontAwesome name="shopping-cart" size={30} color="black" />
+                <FontAwesome
+                  name="shopping-cart"
+                  size={30}
+                  color={colorScheme === "light" ? "black" : "white"}
+                />
               ))}
           </TouchableOpacity>
         );
