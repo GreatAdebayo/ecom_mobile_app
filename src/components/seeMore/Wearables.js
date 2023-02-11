@@ -1,55 +1,69 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
+import { GeneralContext } from "../../contexts/general/state";
+import { ProductContext } from "../../contexts/products/state";
 
 const Wearables = () => {
-  const products = ["s", "d", "e", "s", "d", "e"];
   const navigation = useNavigation();
+  const { colorScheme } = useContext(GeneralContext);
+  const { wearables } = useContext(ProductContext);
   return (
     <View
-      style={[
-        tw`mx-8`,
-        {
-          flexWrap: "wrap",
-          flexDirection: "row",
-        },
-      ]}
+      style={{
+        flexWrap: "wrap",
+        flexDirection: "row",
+        justifyContent: "center",
+      }}
     >
-      {products.map((product, index) => (
+      {wearables.map((item, index) => (
         <TouchableOpacity
           style={[
-            tw`bg-white py-5 m-2 px-2`,
+            tw`p-5 m-1 w-50`,
             {
               borderRadius: 15,
               alignItems: "center",
-              flexBasis: "45%",
+              flexBasis: "auto",
+              backgroundColor: colorScheme === "light" ? "white" : "#1A1A1A",
             },
           ]}
           key={index}
           onPress={() => {
-            navigation.navigate("gadget_details");
+            navigation.navigate("gadget_details", {
+              id: item._id,
+            });
           }}
         >
           <Image
-            source={require("../../assets/apple.png")}
-            style={tw`w-20 h-20`}
+            source={{
+              uri: item.variant[0].images[0],
+            }}
+            style={tw`w-20 h-20 rounded-lg`}
           />
           <Text
             style={[
               tw`mt-5`,
-              { fontFamily: "Raleway_600SemiBold", fontSize: 20 },
+              {
+                fontFamily: "Raleway_600SemiBold",
+                fontSize: 20,
+                color: colorScheme === "light" ? "black" : "white",
+              },
             ]}
           >
-            Apple Watch
+            {item.name && item.name.slice(0, 11)}
+            {item.name && [...item.name].length > 11 && "..."}
           </Text>
           <Text
             style={[
               tw`text-base mt-3`,
-              { color: "gray", fontFamily: "Raleway_400Regular" },
+              {
+                color: colorScheme === "light" ? "gray" : "white",
+                fontFamily: "Raleway_400Regular",
+              },
             ]}
           >
-            Series 6 .Red
+            {item.model}
           </Text>
           <Text
             style={[
@@ -57,7 +71,7 @@ const Wearables = () => {
               { color: "#5956E9", fontFamily: "Raleway_600SemiBold" },
             ]}
           >
-            $199
+            ₦{item.price}
           </Text>
         </TouchableOpacity>
       ))}

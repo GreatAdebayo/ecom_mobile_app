@@ -1,19 +1,21 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { GeneralContext } from "../contexts/general/state";
 
 const CheckoutScreen = ({ navigation }) => {
+  const { colorScheme } = useContext(GeneralContext);
   return (
     <SafeAreaView
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
-        backgroundColor: "#F5F5F8",
+        backgroundColor: colorScheme === "light" ? "#E5E5E5" : "black",
       }}
     >
       <View
@@ -38,12 +40,20 @@ const CheckoutScreen = ({ navigation }) => {
               navigation.goBack();
             }}
           >
-            <AntDesign name="arrowleft" size={24} color="#200E32" />
+            <AntDesign
+              name="arrowleft"
+              size={24}
+              color={colorScheme === "light" ? "#200E32" : "white"}
+            />
           </TouchableOpacity>
           <Text
             style={[
               tw`text-base`,
-              { fontFamily: "Raleway_600SemiBold", fontSize: 18 },
+              {
+                fontFamily: "Raleway_600SemiBold",
+                fontSize: 18,
+                color: colorScheme === "light" ? "#200E32" : "white",
+              },
             ]}
           >
             Checkout
@@ -57,7 +67,15 @@ const CheckoutScreen = ({ navigation }) => {
             { flexDirection: "row", justifyContent: "space-between" },
           ]}
         >
-          <Text style={[tw`text-base`, { fontFamily: "Raleway_600SemiBold" }]}>
+          <Text
+            style={[
+              tw`text-base`,
+              {
+                fontFamily: "Raleway_600SemiBold",
+                color: colorScheme === "light" ? "#200E32" : "white",
+              },
+            ]}
+          >
             Shipping Information
           </Text>
           <Text
@@ -70,15 +88,28 @@ const CheckoutScreen = ({ navigation }) => {
           </Text>
         </View>
         <View style={tw`mt-5`}>
-          <View style={tw`bg-white rounded-xl  p-8 mb-3 py-10`}>
-            <View style={{ flexDirection: "row" }}>
-              <FontAwesome name="user-o" size={22} color="black" />
+          <View
+            style={[
+              tw`rounded-xl p-8 mb-3 py-10`,
+              {
+                backgroundColor:
+                  colorScheme === "light" ? "#E5E5E5" : "#1A1A1A",
+              },
+            ]}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome
+                name="user-o"
+                size={22}
+                color={colorScheme === "light" ? "#200E32" : "white"}
+              />
               <View style={tw`ml-2`}>
                 <Text
                   style={[
                     tw`text-base`,
                     {
                       fontFamily: "Raleway_400Regular",
+                      color: colorScheme === "light" ? "#200E32" : "white",
                     },
                   ]}
                 >
@@ -86,14 +117,21 @@ const CheckoutScreen = ({ navigation }) => {
                 </Text>
               </View>
             </View>
-            <View style={[tw`mt-4`, { flexDirection: "row" }]}>
-              <Ionicons name="ios-location-outline" size={25} color="black" />
+            <View
+              style={[tw`mt-4`, { flexDirection: "row", alignItems: "center" }]}
+            >
+              <Ionicons
+                name="ios-location-outline"
+                size={25}
+                color={colorScheme === "light" ? "#200E32" : "white"}
+              />
               <View style={tw`ml-2`}>
                 <Text
                   style={[
                     tw`text-base`,
                     {
                       fontFamily: "Raleway_400Regular",
+                      color: colorScheme === "light" ? "#200E32" : "white",
                     },
                   ]}
                 >
@@ -101,14 +139,21 @@ const CheckoutScreen = ({ navigation }) => {
                 </Text>
               </View>
             </View>
-            <View style={[tw`mt-4`, { flexDirection: "row" }]}>
-              <Entypo name="phone" size={24} color="black" />
+            <View
+              style={[tw`mt-4`, { flexDirection: "row", alignItems: "center" }]}
+            >
+              <Entypo
+                name="phone"
+                size={24}
+                color={colorScheme === "light" ? "#200E32" : "white"}
+              />
               <View style={tw`ml-2`}>
                 <Text
                   style={[
                     tw`text-base`,
                     {
                       fontFamily: "Raleway_400Regular",
+                      color: colorScheme === "light" ? "#200E32" : "white",
                     },
                   ]}
                 >
@@ -133,6 +178,7 @@ const CheckoutScreen = ({ navigation }) => {
               {
                 fontFamily: "Raleway_400Regular",
                 fontSize: 18,
+                color: colorScheme === "light" ? "#200E32" : "white",
               },
             ]}
           >

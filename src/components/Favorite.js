@@ -2,31 +2,40 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import tw from "twrnc";
 import { Octicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Fragment, useContext } from "react";
+import { useContext } from "react";
 import { GeneralContext } from "../contexts/general/state";
 import { SwipeListView } from "react-native-swipe-list-view";
+import { ProductContext } from "../contexts/products/state";
 
 const Favorite = () => {
-  const products = ["s", "d", "e"];
   const navigation = useNavigation();
   const { colorScheme } = useContext(GeneralContext);
+  const {
+    favorites,
+    removeFromFavorites,
+    addToBasket,
+    basket,
+    removeFromBasket,
+  } = useContext(ProductContext);
   return (
     <SwipeListView
       showsVerticalScrollIndicator={false}
-      data={products}
-      renderItem={(data, rowMap) => (
+      data={favorites}
+      renderItem={({ item }) => (
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("gadget_details");
+            navigation.navigate("gadget_details", {
+              id: item._id,
+            });
           }}
         >
           <View
             style={[
-              tw`rounded-xl h-40 p-4 mb-3`,
+              tw`rounded-xl h-40 p-5 mb-3`,
               {
                 flexDirection: "row",
                 alignItems: "center",
-                backgroundColor: colorScheme === "light" ? "white" : "black",
+                backgroundColor: colorScheme === "light" ? "white" : "#1A1A1A",
               },
             ]}
           >
@@ -36,8 +45,10 @@ const Favorite = () => {
               }}
             >
               <Image
-                source={require("../assets/laptop.png")}
                 style={tw`w-20 h-20 rounded-lg`}
+                source={{
+                  uri: item.variant[0].images[0],
+                }}
               />
             </View>
             <View style={{ flex: 2, justifyContent: "center" }}>
@@ -50,7 +61,7 @@ const Favorite = () => {
                   },
                 ]}
               >
-                2020 Apple iPad Air 10.9"
+                {item.name} • {item.model}
               </Text>
               <View style={tw`mt-2`}>
                 <Text
@@ -59,7 +70,7 @@ const Favorite = () => {
                     color: "#5956E9",
                   }}
                 >
-                  $579
+                  ₦{item.price}
                 </Text>
               </View>
               <View
@@ -71,33 +82,66 @@ const Favorite = () => {
                   },
                 ]}
               >
-                <TouchableOpacity
-                  style={[
-                    tw`px-2 py-1 rounded`,
-                    {
-                      alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: "#5956E9",
-                    },
-                  ]}
-                >
-                  <Text
-                    style={{
-                      fontFamily: "Raleway_600SemiBold",
-                      color: "white",
-                      fontSize: 15,
+                {basket.find((f) => f._id === item._id) ? (
+                  <TouchableOpacity
+                    style={[
+                      tw`px-2 py-3 rounded bg-red-500`,
+                      {
+                        alignItems: "center",
+                        justifyContent: "center",
+                      },
+                    ]}
+                    onPress={() => {
+                      removeFromBasket(item._id);
                     }}
                   >
-                    Add to basket
-                  </Text>
-                </TouchableOpacity>
+                    <Text
+                      style={{
+                        fontFamily: "Raleway_600SemiBold",
+                        color: "white",
+                        fontSize: 15,
+                      }}
+                    >
+                      Remove from basket
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={[
+                      tw`px-2 py-3 rounded`,
+                      {
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "#5956E9",
+                      },
+                    ]}
+                    onPress={() => {
+                      addToBasket(item);
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "Raleway_600SemiBold",
+                        color: "white",
+                        fontSize: 15,
+                      }}
+                    >
+                      Add to basket
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </View>
         </TouchableOpacity>
       )}
-      renderHiddenItem={(data, rowMap) => (
-        <TouchableOpacity style={{ alignItems: "flex-end" }}>
+      renderHiddenItem={({ item }) => (
+        <TouchableOpacity
+          style={{ alignItems: "flex-end" }}
+          onPress={() => {
+            removeFromFavorites(item._id);
+          }}
+        >
           <View style={[tw`py-15 px-5`, { justifyContent: "center" }]}>
             <Octicons name="trash" size={24} color="red" />
           </View>

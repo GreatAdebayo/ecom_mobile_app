@@ -3,17 +3,23 @@ import { View, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { GeneralContext } from "../contexts/general/state";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 const TabContent = ({ state, descriptors, navigation }) => {
   const { colorScheme } = useContext(GeneralContext);
+  const [index, setIndex] = useState(0);
   return (
     <View
       style={[
         tw`h-20 py-5`,
         {
           flexDirection: "row",
-          backgroundColor: colorScheme === "light" ? "#E5E5E5" : "#1A1A1A",
+          backgroundColor:
+            colorScheme === "light"
+              ? index === 0
+                ? "#E5E5E5"
+                : "#F5F5F8"
+              : "black",
         },
       ]}
     >
@@ -29,6 +35,7 @@ const TabContent = ({ state, descriptors, navigation }) => {
         const isFocused = state.index === index;
 
         const onPress = () => {
+          setIndex(index);
           const event = navigation.emit({
             type: "tabPress",
             target: route.key,

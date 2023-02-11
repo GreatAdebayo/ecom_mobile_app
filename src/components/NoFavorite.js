@@ -2,9 +2,11 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { Fragment, useContext } from "react";
 import tw from "twrnc";
 import { GeneralContext } from "../contexts/general/state";
+import { useNavigation } from "@react-navigation/native";
 
 const NoFavorite = () => {
   const { colorScheme } = useContext(GeneralContext);
+  const navigation = useNavigation();
   return (
     <Fragment>
       <View style={{ alignItems: "center" }}>
@@ -46,6 +48,9 @@ const NoFavorite = () => {
             backgroundColor: "#58C0EA",
           },
         ]}
+        onPress={() => {
+          navigation.navigate("home");
+        }}
       >
         <Text
           style={[

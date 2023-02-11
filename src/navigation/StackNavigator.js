@@ -5,7 +5,7 @@ import GadgetDetailsScreen from "../screens/GadgetDetailsScreen";
 import SearchResultScreen from "../screens/SearchResultScreen";
 import DrawerNavigator from "./DrawerNavigator";
 import OrdersScreen from "../screens/OrdersScreen";
-import WearablesScreen from "../screens/WearableScreen";
+import SeeMoreScreen from "../screens/SeeMoreScreen";
 import LaptopScreen from "../screens/LaptopScreen";
 import CheckoutScreen from "../screens/CheckoutScreen";
 import NoInternetScreen from "../screens/NoInternetScreen";
@@ -17,10 +17,8 @@ const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
   const { isConnected, colorScheme } = useContext(GeneralContext);
-
   return (
     <Fragment>
-      <StatusBar style={colorScheme === "light" ? "dark" : "light"} />
       <Stack.Navigator>
         {isConnected ? (
           <Fragment>
@@ -67,8 +65,8 @@ const StackNavigator = () => {
               }}
             />
             <Stack.Screen
-              name="wearables"
-              component={WearablesScreen}
+              name="see_more"
+              component={SeeMoreScreen}
               options={{
                 headerShown: false,
               }}
@@ -98,6 +96,7 @@ const StackNavigator = () => {
           />
         )}
       </Stack.Navigator>
+      <StatusBar style={colorScheme === "light" ? "dark" : "light"} />
     </Fragment>
   );
 };

@@ -1,45 +1,45 @@
-import { Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import { Text, TouchableOpacity, Image, FlatList } from "react-native";
 import React, { Fragment, useContext } from "react";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { GeneralContext } from "../contexts/general/state";
+import { ProductContext } from "../contexts/products/state";
+import { ProductLoader } from "./SkeletonLoader";
 
 const Wearables = () => {
   const navigation = useNavigation();
-  const products = ["s", "d", "e"];
   const { colorScheme } = useContext(GeneralContext);
+  const { wearables } = useContext(ProductContext);
+
   return (
     <Fragment>
-      <ScrollView
-        style={[
-          tw`my-10 ml-5`,
-          {
-            flexDirection: "row",
-          },
-        ]}
+      <FlatList
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-      >
-        {products.map((product, index) => (
+        data={wearables}
+        renderItem={({ item, index }) => (
           <TouchableOpacity
             style={[
-              tw`px-15 mr-6`,
+              tw`px-15 mr-6 py-10 ${index === 0 ? "ml-5" : ""}`,
               {
                 borderRadius: 15,
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: colorScheme === "light" ? "white" : "black",
+                backgroundColor: colorScheme === "light" ? "white" : "#1A1A1A",
               },
             ]}
-            key={index}
             onPress={() => {
-              navigation.navigate("gadget_details");
+              navigation.navigate("gadget_details", {
+                id: item._id,
+              });
             }}
           >
             <Image
-              source={require("../assets/apple.png")}
-              style={tw`w-30 h-30 rounded-lg`}
+              style={tw`w-40 h-50 rounded-lg`}
+              source={{
+                uri: item.variant[0].images[0],
+              }}
             />
             <Text
               style={[
@@ -51,7 +51,8 @@ const Wearables = () => {
                 },
               ]}
             >
-              Apple Watch
+              {item.name && item.name.slice(0, 10)}
+              {item.name && [...item.name].length > 10 && "..."}
             </Text>
             <Text
               style={[
@@ -62,7 +63,7 @@ const Wearables = () => {
                 },
               ]}
             >
-              Series 6 .Red
+              {item.model}
             </Text>
             <Text
               style={[
@@ -70,15 +71,18 @@ const Wearables = () => {
                 { color: "#5956E9", fontFamily: "Raleway_600SemiBold" },
               ]}
             >
-              $399
+              ₦{item.price}
             </Text>
           </TouchableOpacity>
-        ))}
-      </ScrollView>
+        )}
+        keyExtractor={(item) => item._id}
+      />
       <TouchableOpacity
-        style={[{ alignItems: "flex-end" }, tw`m-5`]}
+        style={[{ alignItems: "flex-end", justifyContent: "center" }, tw`m-5`]}
         onPress={() => {
-          navigation.navigate("wearables");
+          navigation.navigate("see_more", {
+            type: "wearables",
+          });
         }}
       >
         <Text

@@ -1,207 +1,305 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import React, { Fragment, useContext, useEffect } from "react";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { GeneralContext } from "../contexts/general/state";
+import { ProductContext } from "../contexts/products/state";
+import { SliderBox } from "react-native-image-slider-box";
+import { ProductLoader } from "../components/SkeletonLoader";
 
-const GadgetDetailsScreen = ({ navigation }) => {
+const GadgetDetailsScreen = ({ navigation, route }) => {
+  const { colorScheme } = useContext(GeneralContext);
+  const {
+    getProductDetails,
+    productDetails,
+    isProductDetailsLoading,
+    variant,
+    setVariant,
+    addToFavorites,
+    favorites,
+    removeFromFavorites,
+    addToBasket,
+    basket,
+  } = useContext(ProductContext);
+
+  useEffect(() => {
+    getProductDetails(route.params.id);
+  }, []);
+
   return (
     <SafeAreaView
       flexGrow={1}
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
-        backgroundColor: "#F6F6F9",
+        backgroundColor: colorScheme === "light" ? "#F6F6F9" : "#1A1A1A",
       }}
       edges={["top"]}
     >
-      <View
-        style={[
-          tw`pt-2 px-8`,
-          {
-            flex: 1,
-          },
-        ]}
-      >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <AntDesign name="arrowleft" size={24} color="#200E32" />
-          </TouchableOpacity>
-          <Ionicons name="ios-heart-circle" size={30} color="#200E32" />
-        </View>
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-          {/* <Image
-            source={require("../assets/airpod.png")}
-            style={tw`w-50 h-50`}
-          /> */}
-        </View>
-      </View>
-      <View
-        style={[
-          tw`py-10 px-8`,
-          {
-            backgroundColor: "white",
-            flex: 2,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-          },
-        ]}
-      >
-        <View style={tw`mx-3`}>
-          <View>
-            <Text style={[{ fontFamily: "Raleway_600SemiBold", fontSize: 25 }]}>
-              2020 Apple iPad Air 10.9"
-            </Text>
-          </View>
-
-          <View style={tw`mt-5`}>
-            <Text
-              style={[tw`text-base`, { fontFamily: "Raleway_600SemiBold" }]}
-            >
-              Colors
-            </Text>
-            <View
-              style={[
-                tw`mt-2`,
-                { flexDirection: "row", justifyContent: "space-between" },
-              ]}
-            >
-              <View
-                style={[
-                  tw`bg-white px-3 py-3 rounded-lg border border-gray-200`,
-                  {
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "row",
-                  },
-                ]}
-              >
-                <Octicons name="dot-fill" size={20} color="blue" />
-                <Text style={{ fontFamily: "Raleway_600SemiBold" }}>
-                  {" "}
-                  Sky Blue
-                </Text>
-              </View>
-              <View
-                style={[
-                  tw`bg-white px-3 py-3 rounded-lg border  border-yellow-400`,
-                  {
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "row",
-                  },
-                ]}
-              >
-                <Octicons
-                  name="dot-fill"
-                  size={20}
-                  style={tw`text-yellow-400`}
-                />
-                <Text style={{ fontFamily: "Raleway_600SemiBold" }}>
-                  {" "}
-                  Rose Gold
-                </Text>
-              </View>
-              <View
-                style={[
-                  tw`bg-white px-3 py-3 rounded-lg border border-gray-200`,
-                  {
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "row",
-                  },
-                ]}
-              >
-                <Octicons name="dot-fill" size={20} color="green" />
-                <Text style={{ fontFamily: "Raleway_600SemiBold" }}>
-                  {" "}
-                  Green
-                </Text>
-              </View>
-            </View>
-            <View style={tw`mt-8`}>
-              <Text
-                style={[tw`text-base`, { fontFamily: "Raleway_600SemiBold" }]}
-              >
-                Get Apple TV+ free for a year
-              </Text>
-              <Text
-                style={[
-                  tw`text-base`,
-                  { fontFamily: "Raleway_400Regular", color: "gray" },
-                ]}
-              >
-                Available when you purchase any new iPhone, iPad, iPod Touch,
-                Mac or Apple TV, £4.99/month after free trial.
-              </Text>
-            </View>
-            <View
-              style={[
-                tw`mt-8`,
-                {
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                },
-              ]}
-            >
-              <Text
-                style={[
-                  tw`text-base`,
-                  {
-                    fontFamily: "Raleway_400Regular",
-                    fontSize: 18,
-                  },
-                ]}
-              >
-                Price
-              </Text>
-              <Text
-                style={[
-                  tw`text-base`,
-                  {
-                    color: "#5956E9",
-                    fontFamily: "Raleway_600SemiBold",
-                    fontSize: 18,
-                  },
-                ]}
-              >
-                $579
-              </Text>
-            </View>
-          </View>
-        </View>
-        <TouchableOpacity
           style={[
-            tw`mt-15 py-6 rounded-lg px-3 shadow-lg`,
+            tw`pt-2 px-8`,
             {
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "#5956E9",
+              flex: 1,
             },
           ]}
         >
-          <Text
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}
+            >
+              <AntDesign
+                name="arrowleft"
+                size={24}
+                color={colorScheme === "light" ? "#200E32" : "white"}
+              />
+            </TouchableOpacity>
+            {favorites.find(
+              (favorite) => favorite._id === productDetails._id
+            ) ? (
+              <TouchableOpacity
+                onPress={() => {
+                  removeFromFavorites(productDetails._id);
+                }}
+              >
+                <Ionicons name="ios-heart-circle" size={30} color="#5956E9" />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={() => {
+                  addToFavorites(productDetails);
+                }}
+              >
+                <Ionicons
+                  name="ios-heart-circle"
+                  size={30}
+                  color={colorScheme === "light" ? "#200E32" : "white"}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+          <View
             style={[
-              tw`text-base`,
-              { color: "white", fontFamily: "Raleway_700Bold" },
+              tw`mt-3 mb-10`,
+              { justifyContent: "center", alignItems: "center" },
             ]}
           >
-            Add to basket
-          </Text>
-        </TouchableOpacity>
-      </View>
+            {isProductDetailsLoading ? (
+              <ProductLoader />
+            ) : (
+              variant.images && (
+                <SliderBox
+                  images={variant.images}
+                  dotColor="#5956E9"
+                  inactiveDotColor="gray"
+                  imageLoadingColor="#5956E9"
+                  sliderBoxHeight={400}
+                />
+              )
+            )}
+          </View>
+        </View>
+
+        <View
+          style={[
+            tw`py-10 px-8`,
+            {
+              backgroundColor: colorScheme === "light" ? "white" : "black",
+              flex: 2,
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+            },
+          ]}
+        >
+          {isProductDetailsLoading ? (
+            <ProductLoader />
+          ) : (
+            <Fragment>
+              <View style={tw`mx-3`}>
+                <View>
+                  <Text
+                    style={[
+                      {
+                        fontFamily: "Raleway_600SemiBold",
+                        fontSize: 25,
+                        color: colorScheme === "light" ? "black" : "white",
+                      },
+                    ]}
+                  >
+                    {productDetails.name} • {productDetails.model}
+                  </Text>
+                </View>
+
+                <View style={tw`mt-5`}>
+                  <Text
+                    style={[
+                      tw`text-base`,
+                      {
+                        fontFamily: "Raleway_600SemiBold",
+                        color: colorScheme === "light" ? "black" : "white",
+                      },
+                    ]}
+                  >
+                    Variants
+                  </Text>
+                  <View style={[tw`mt-2`, { flexDirection: "row" }]}>
+                    {productDetails.variant &&
+                      productDetails.variant.map((item, index) => (
+                        <TouchableOpacity
+                          style={[
+                            tw`bg-white px-3 py-3 rounded-lg border mx-1`,
+                            {
+                              justifyContent: "center",
+                              alignItems: "center",
+                              flexDirection: "row",
+                              borderColor:
+                                variant._id === item._id ? item.hexa : "white",
+                              borderWidth: variant._id === item._id ? 5 : 0,
+                            },
+                          ]}
+                          key={index}
+                          onPress={() => {
+                            setVariant(item);
+                          }}
+                        >
+                          <Octicons
+                            name="dot-fill"
+                            size={20}
+                            color={item.hexa}
+                          />
+                          <Text
+                            style={[
+                              tw`capitalize`,
+                              { fontFamily: "Raleway_600SemiBold" },
+                            ]}
+                          >
+                            {" "}
+                            {item.color}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                  </View>
+                  <View style={tw`mt-8`}>
+                    <Text
+                      style={[
+                        tw`text-base`,
+                        {
+                          fontFamily: "Raleway_600SemiBold",
+                          color: colorScheme === "light" ? "black" : "white",
+                        },
+                      ]}
+                    >
+                      Description
+                    </Text>
+                    <Text
+                      style={[
+                        tw`text-base`,
+                        { fontFamily: "Raleway_400Regular", color: "gray" },
+                      ]}
+                    >
+                      {productDetails.description}
+                    </Text>
+                  </View>
+                  <View
+                    style={[
+                      tw`mt-8`,
+                      {
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      },
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        tw`text-base`,
+                        {
+                          fontFamily: "Raleway_400Regular",
+                          fontSize: 18,
+                          color: colorScheme === "light" ? "black" : "white",
+                        },
+                      ]}
+                    >
+                      Price
+                    </Text>
+                    <Text
+                      style={[
+                        tw`text-base`,
+                        {
+                          color: "#5956E9",
+                          fontFamily: "Raleway_600SemiBold",
+                          fontSize: 18,
+                        },
+                      ]}
+                    >
+                      ₦{productDetails.price}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              {basket.find((basket) => basket._id === productDetails._id) ? (
+                <TouchableOpacity
+                  style={[
+                    tw`mt-15 py-6 rounded-lg px-3 shadow-lg`,
+                    {
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "#5956E9",
+                    },
+                  ]}
+                  onPress={() => {
+                    navigation.navigate("basket");
+                  }}
+                >
+                  <Text
+                    style={[
+                      tw`text-base`,
+                      { color: "white", fontFamily: "Raleway_700Bold" },
+                    ]}
+                  >
+                    View basket
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={[
+                    tw`mt-15 py-6 rounded-lg px-3 shadow-lg`,
+                    {
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "#5956E9",
+                    },
+                  ]}
+                  onPress={() => {
+                    addToBasket(productDetails);
+                  }}
+                >
+                  <Text
+                    style={[
+                      tw`text-base`,
+                      { color: "white", fontFamily: "Raleway_700Bold" },
+                    ]}
+                  >
+                    Add to basket
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </Fragment>
+          )}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

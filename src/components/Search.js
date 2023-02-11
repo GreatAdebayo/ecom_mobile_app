@@ -10,23 +10,21 @@ const Search = () => {
   const { colorScheme } = useContext(GeneralContext);
   return (
     <View
-      style={[
-        tw`mx-8`,
-        {
-          flexWrap: "wrap",
-          flexDirection: "row",
-        },
-      ]}
+      style={{
+        flexWrap: "wrap",
+        flexDirection: "row",
+        justifyContent: "center",
+      }}
     >
       {products.map((product, index) => (
         <TouchableOpacity
           style={[
-            tw`py-5 m-2 px-2`,
+            tw`p-5 m-1`,
             {
               borderRadius: 15,
               alignItems: "center",
-              flexBasis: "45%",
-              backgroundColor: colorScheme === "light" ? "white" : "black",
+              flexBasis: "auto",
+              backgroundColor: colorScheme === "light" ? "white" : "#1A1A1A",
             },
           ]}
           key={index}

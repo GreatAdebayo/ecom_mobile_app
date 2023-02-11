@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Text, View, Pressable } from "react-native";
+import { Text, View, Pressable, ScrollView } from "react-native";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -54,15 +54,13 @@ const DrawerContent = () => {
   ];
 
   return (
-    <View
-      style={[
-        {
-          flexGrow: 1,
-          backgroundColor: "#5956E9",
-        },
-      ]}
+    <ScrollView
+      contentContainerStyle={{
+        flexGrow: 1,
+        backgroundColor: "#5956E9",
+      }}
     >
-      <SafeAreaView style={tw`mx-10 mt-30`} edges={["top"]}>
+      <SafeAreaView style={tw`mx-10  mt-30`} edges={["top"]}>
         {menu.map((item, index) => (
           <Pressable
             style={[tw`mb-2`, { flexDirection: "row", alignItems: "center" }]}
@@ -99,7 +97,12 @@ const DrawerContent = () => {
           </Pressable>
         ))}
       </SafeAreaView>
-      <Pressable style={tw`mt-50 mx-10`}>
+      <Pressable
+        style={tw`mt-50 mx-10`}
+        onPress={() => {
+          navigation.navigate("signin");
+        }}
+      >
         <View
           style={[tw`mb-2`, { flexDirection: "row", alignItems: "center" }]}
         >
@@ -119,7 +122,7 @@ const DrawerContent = () => {
           </View>
         </View>
       </Pressable>
-    </View>
+    </ScrollView>
   );
 };
 

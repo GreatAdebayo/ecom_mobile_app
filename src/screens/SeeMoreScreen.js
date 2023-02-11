@@ -4,14 +4,20 @@ import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import Wearables from "../components/seeMore/Wearables";
+import React, { useContext } from "react";
+import { GeneralContext } from "../contexts/general/state";
+import Laptop from "../components/seeMore/Laptop";
+import Phones from "../components/seeMore/Phones";
+import Accesories from "../components/seeMore/Accessories";
 
-const WearablesScreen = ({ navigation }) => {
+const SeeMoreScreen = ({ navigation, route }) => {
+  const { colorScheme } = useContext(GeneralContext);
   return (
     <SafeAreaView
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
-        backgroundColor: "#F5F5F8",
+        backgroundColor: colorScheme === "light" ? "#F5F5F8" : "black",
       }}
       edges={["top"]}
     >
@@ -31,7 +37,11 @@ const WearablesScreen = ({ navigation }) => {
             }}
             style={{ flex: 1 }}
           >
-            <AntDesign name="arrowleft" size={24} color="#200E32" />
+            <AntDesign
+              name="arrowleft"
+              size={24}
+              color={colorScheme === "light" ? "#200E32" : "white"}
+            />
           </TouchableOpacity>
           <View
             style={[
@@ -46,22 +56,29 @@ const WearablesScreen = ({ navigation }) => {
               },
             ]}
           >
-            <Ionicons name="search" size={24} color="black" />
+            <Ionicons
+              name="search"
+              size={24}
+              color={colorScheme === "light" ? "black" : "white"}
+            />
             <TextInput
-              placeholder="Search Wearables"
+              placeholder={`Search ${route.params.type}`}
               style={[
-                tw`pl-2 w-100`,
+                tw`ml-2 w-full`,
                 { fontFamily: "Raleway_400Regular", fontSize: 17 },
               ]}
-              placeholderTextColor="gray"
+              placeholderTextColor={colorScheme === "light" ? "gray" : "white"}
               autoCapitalize="none"
             />
           </View>
         </View>
-        <Wearables />
+        {route.params.type === "laptops" && <Laptop />}
+        {route.params.type === "wearables" && <Wearables />}
+        {route.params.type === "phones" && <Phones />}
+        {route.params.type === "accessories" && <Accesories />}
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default WearablesScreen;
+export default SeeMoreScreen;

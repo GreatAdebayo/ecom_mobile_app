@@ -5,10 +5,10 @@ import { useNavigation } from "@react-navigation/native";
 import { GeneralContext } from "../../contexts/general/state";
 import { ProductContext } from "../../contexts/products/state";
 
-const Laptops = () => {
+const Accessories = () => {
   const navigation = useNavigation();
   const { colorScheme } = useContext(GeneralContext);
-  const { laptops } = useContext(ProductContext);
+  const { accessories } = useContext(ProductContext);
   return (
     <View
       style={{
@@ -17,7 +17,7 @@ const Laptops = () => {
         justifyContent: "center",
       }}
     >
-      {laptops.map((item, index) => (
+      {accessories.map((item, index) => (
         <TouchableOpacity
           style={[
             tw`p-5 m-1 w-50`,
@@ -79,4 +79,4 @@ const Laptops = () => {
   );
 };
 
-export default Laptops;
+export default Accessories;

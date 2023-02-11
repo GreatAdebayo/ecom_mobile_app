@@ -1,8 +1,12 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import tw from "twrnc";
+import { useNavigation } from "@react-navigation/native";
+import { GeneralContext } from "../contexts/general/state";
 
 const EmptyBaasket = () => {
+  const navigation = useNavigation();
+  const { colorScheme } = useContext(GeneralContext);
   return (
     <Fragment>
       <View style={{ alignItems: "center" }}>
@@ -10,7 +14,11 @@ const EmptyBaasket = () => {
         <Text
           style={[
             tw`text-base`,
-            { fontFamily: "Raleway_700Bold", fontSize: 20 },
+            {
+              fontFamily: "Raleway_700Bold",
+              fontSize: 20,
+              color: colorScheme === "light" ? "black" : "white",
+            },
           ]}
         >
           Empty Basket
@@ -19,7 +27,10 @@ const EmptyBaasket = () => {
           <Text
             style={[
               tw`text-base`,
-              { fontFamily: "Raleway_400Regular", color: "gray" },
+              {
+                fontFamily: "Raleway_400Regular",
+                color: colorScheme === "light" ? "gray" : "white",
+              },
             ]}
           >
             Hit the blue button down below to Create an order
@@ -37,6 +48,9 @@ const EmptyBaasket = () => {
             backgroundColor: "#58C0EA",
           },
         ]}
+        onPress={() => {
+          navigation.navigate("home");
+        }}
       >
         <Text
           style={[

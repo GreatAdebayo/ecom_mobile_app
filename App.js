@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
@@ -23,6 +22,7 @@ import {
 } from "@expo-google-fonts/raleway";
 import StackNavigator from "./src/navigation/StackNavigator";
 import { GeneralState } from "./src/contexts/general/state";
+import { ProductState } from "./src/contexts/products/state";
 
 const App = () => {
   const [fontsLoaded] = useFonts({
@@ -51,10 +51,11 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <GeneralState>
-        <NavigationContainer>
-          <StackNavigator />
-        </NavigationContainer>
-        <StatusBar style="dark" />
+        <ProductState>
+          <NavigationContainer>
+            <StackNavigator />
+          </NavigationContainer>
+        </ProductState>
       </GeneralState>
     </SafeAreaProvider>
   );

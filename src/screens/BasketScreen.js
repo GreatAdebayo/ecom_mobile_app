@@ -7,15 +7,17 @@ import Basket from "../components/Basket";
 import EmptyBaasket from "../components/EmptyBasket";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GeneralContext } from "../contexts/general/state";
+import { ProductContext } from "../contexts/products/state";
 
 const BasketScreen = ({ navigation }) => {
   const { colorScheme } = useContext(GeneralContext);
+  const { basket } = useContext(ProductContext);
   return (
     <SafeAreaView
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
-        backgroundColor: colorScheme === "light" ? "#F5F5F8" : "#1A1A1A",
+        backgroundColor: colorScheme === "light" ? "#F5F5F8" : "black",
       }}
       edges={["top"]}
     >
@@ -60,10 +62,9 @@ const BasketScreen = ({ navigation }) => {
           >
             Basket
           </Text>
-          <Octicons name="trash" size={24} color="red" />
+          <View></View>
         </View>
-        <Basket />
-        {/* <EmptyBaasket /> */}
+        {basket.length > 0 ? <Basket /> : <EmptyBaasket />}
       </View>
     </SafeAreaView>
   );

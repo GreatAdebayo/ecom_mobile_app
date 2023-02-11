@@ -1,30 +1,38 @@
-import { View, Text, TouchableOpacity, Image, Pressable } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import { Fragment, useContext } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { Octicons } from "@expo/vector-icons";
 import { GeneralContext } from "../contexts/general/state";
+import { ProductContext } from "../contexts/products/state";
 
 const Basket = () => {
-  const products = ["s", "d", "e"];
   const navigation = useNavigation();
   const { colorScheme } = useContext(GeneralContext);
+  const { basket, increaseQuantity, reduceQuantity, removeFromBasket } =
+    useContext(ProductContext);
+
   return (
     <Fragment>
       <SwipeListView
         showsVerticalScrollIndicator={false}
-        data={products}
-        renderItem={(data, rowMap) => (
-          <View
+        data={basket}
+        renderItem={({ item }) => (
+          <TouchableOpacity
             style={[
-              tw`rounded-lg h-40 p-4 mb-3`,
+              tw`rounded-lg h-40 p-5 mb-3`,
               {
                 flexDirection: "row",
                 alignItems: "center",
-                backgroundColor: colorScheme === "light" ? "white" : "black",
+                backgroundColor: colorScheme === "light" ? "white" : "#1A1A1A",
               },
             ]}
+            onPress={() => {
+              navigation.navigate("gadget_details", {
+                id: item._id,
+              });
+            }}
           >
             <View
               style={{
@@ -32,28 +40,24 @@ const Basket = () => {
               }}
             >
               <Image
-                source={require("../assets/laptop.png")}
-                style={tw`w-20 h-20`}
+                style={tw`w-20 h-20 rounded-lg`}
+                source={{
+                  uri: item.variant[0].images[0],
+                }}
               />
             </View>
             <View style={{ flex: 2, justifyContent: "center" }}>
-              <Pressable
-                onPress={() => {
-                  navigation.navigate("gadget_details");
-                }}
+              <Text
+                style={[
+                  tw`text-base`,
+                  {
+                    fontFamily: "Raleway_600SemiBold",
+                    color: colorScheme === "light" ? "black" : "white",
+                  },
+                ]}
               >
-                <Text
-                  style={[
-                    tw`text-base`,
-                    {
-                      fontFamily: "Raleway_600SemiBold",
-                      color: colorScheme === "light" ? "black" : "white",
-                    },
-                  ]}
-                >
-                  2020 Apple iPad Air 10.9"
-                </Text>
-              </Pressable>
+                {item.name} • {item.model}
+              </Text>
               <View style={tw`mt-2`}>
                 <Text
                   style={{
@@ -61,7 +65,7 @@ const Basket = () => {
                     color: "#5956E9",
                   }}
                 >
-                  $579
+                  ₦{item.price}
                 </Text>
               </View>
               <View
@@ -83,12 +87,16 @@ const Basket = () => {
                 </Text>
                 <TouchableOpacity
                   style={[
-                    tw`bg-blue-300 px-2 py-1 rounded`,
+                    tw`px-2 py-1 rounded`,
                     {
                       alignItems: "center",
                       justifyContent: "center",
+                      backgroundColor: "#5956E9",
                     },
                   ]}
+                  onPress={() => {
+                    reduceQuantity(item);
+                  }}
                 >
                   <Text
                     style={{
@@ -97,7 +105,7 @@ const Basket = () => {
                       fontSize: 15,
                     }}
                   >
-                    +
+                    -
                   </Text>
                 </TouchableOpacity>
                 <View
@@ -115,17 +123,21 @@ const Basket = () => {
                       color: colorScheme === "light" ? "black" : "white",
                     }}
                   >
-                    1
+                    {item.quantity}
                   </Text>
                 </View>
                 <TouchableOpacity
                   style={[
-                    tw`bg-blue-300 px-2 py-1 rounded`,
+                    tw`px-2 py-1 rounded`,
                     {
                       alignItems: "center",
                       justifyContent: "center",
+                      backgroundColor: "#5956E9",
                     },
                   ]}
+                  onPress={() => {
+                    increaseQuantity(item);
+                  }}
                 >
                   <Text
                     style={{
@@ -134,19 +146,24 @@ const Basket = () => {
                       fontSize: 15,
                     }}
                   >
-                    -
+                    +
                   </Text>
                 </TouchableOpacity>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
         )}
-        renderHiddenItem={(data, rowMap) => (
-          <View style={{ alignItems: "flex-end" }}>
+        renderHiddenItem={({ item }) => (
+          <TouchableOpacity
+            style={{ alignItems: "flex-end" }}
+            onPress={() => {
+              removeFromBasket(item._id);
+            }}
+          >
             <View style={[tw`py-15 px-5`, { justifyContent: "center" }]}>
               <Octicons name="trash" size={24} color="red" />
             </View>
-          </View>
+          </TouchableOpacity>
         )}
         rightOpenValue={-75}
       />
@@ -182,7 +199,10 @@ const Basket = () => {
             },
           ]}
         >
-          $579
+          ₦
+          {basket.reduce((acc, obj) => {
+            return acc + obj.total;
+          }, 0)}
         </Text>
       </View>
       <TouchableOpacity

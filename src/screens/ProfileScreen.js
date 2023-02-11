@@ -14,7 +14,7 @@ const ProfileScreen = ({ navigation }) => {
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
-        backgroundColor: colorScheme === "light" ? "#F5F5F8" : "#1A1A1A",
+        backgroundColor: colorScheme === "light" ? "#F5F5F8" : "black",
       }}
     >
       <View
@@ -67,7 +67,7 @@ const ProfileScreen = ({ navigation }) => {
               {
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: colorScheme === "light" ? "white" : "black",
+                backgroundColor: colorScheme === "light" ? "white" : "#1A1A1A",
               },
             ]}
           >
@@ -117,7 +117,7 @@ const ProfileScreen = ({ navigation }) => {
               {
                 flexDirection: "row",
                 justifyContent: "space-between",
-                backgroundColor: colorScheme === "light" ? "white" : "black",
+                backgroundColor: colorScheme === "light" ? "white" : "#1A1A1A",
               },
             ]}
           >

@@ -21,7 +21,7 @@ const SearchResultScreen = ({ navigation }) => {
       style={{
         flexGrow: 1,
         justifyContent: "space-between",
-        backgroundColor: colorScheme === "light" ? "#F5F5F8" : "#1A1A1A",
+        backgroundColor: colorScheme === "light" ? "#F5F5F8" : "black",
       }}
       edges={["top"]}
     >
