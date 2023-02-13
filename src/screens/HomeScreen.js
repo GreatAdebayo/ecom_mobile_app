@@ -1,4 +1,11 @@
-import { View, Text, TextInput, Pressable, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
 import React, { useContext, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
@@ -10,7 +17,7 @@ import Accessories from "../components/Accesories";
 import { GeneralContext } from "../contexts/general/state";
 import { ScrollView } from "react-native-gesture-handler";
 import { ProductContext } from "../contexts/products/state";
-import { ProductLoader } from "../components/SkeletonLoader";
+import { Fragment } from "react/cjs/react.production.min";
 
 const HomeScreen = ({ navigation }) => {
   const { width, height } = Dimensions.get("window");
@@ -24,6 +31,10 @@ const HomeScreen = ({ navigation }) => {
     phones,
     laptops,
     accessories,
+    isWearablesLoading,
+    isLaptopsLoading,
+    isPhonesLoading,
+    isAccessoriesLoading,
   } = useContext(ProductContext);
 
   useEffect(() => {
@@ -119,89 +130,93 @@ const HomeScreen = ({ navigation }) => {
             delivered to your door step.
           </Text>
         </View>
-        {wearables.length > 0 ? (
-          <View style={{ flex: 1 }}>
-            <View style={tw`m-5`}>
-              <Text
-                style={[
-                  tw`text-base`,
-                  {
-                    color: colorScheme === "light" ? "#5956E9" : "white",
-                    fontFamily: "Raleway_600SemiBold",
-                    fontSize: 18,
-                  },
-                ]}
-              >
-                Wearables
-              </Text>
-            </View>
-            <Wearables />
-          </View>
+        {isWearablesLoading ||
+        isLaptopsLoading ||
+        isAccessoriesLoading ||
+        isPhonesLoading ? (
+          <ActivityIndicator
+            size="small"
+            color={colorScheme === "light" ? "#5956E9" : "white"}
+          />
         ) : (
-          <ProductLoader />
-        )}
-        {laptops.length > 0 ? (
-          <View style={{ flex: 1 }}>
-            <View style={tw`m-5`}>
-              <Text
-                style={[
-                  tw`text-base`,
-                  {
-                    color: colorScheme === "light" ? "#5956E9" : "white",
-                    fontFamily: "Raleway_600SemiBold",
-                    fontSize: 18,
-                  },
-                ]}
-              >
-                Laptops
-              </Text>
-            </View>
-            <Laptops />
-          </View>
-        ) : (
-          <ProductLoader />
-        )}
-        {phones.length > 0 ? (
-          <View style={{ flex: 1 }}>
-            <View style={tw`m-5`}>
-              <Text
-                style={[
-                  tw`text-base`,
-                  {
-                    color: colorScheme === "light" ? "#5956E9" : "white",
-                    fontFamily: "Raleway_600SemiBold",
-                    fontSize: 18,
-                  },
-                ]}
-              >
-                Phones
-              </Text>
-            </View>
-            <Phones />
-          </View>
-        ) : (
-          <ProductLoader />
-        )}
-        {accessories.length > 0 ? (
-          <View style={[tw`mb-25`, { flex: 1 }]}>
-            <View style={tw`m-5`}>
-              <Text
-                style={[
-                  tw`text-base`,
-                  {
-                    color: colorScheme === "light" ? "#5956E9" : "white",
-                    fontFamily: "Raleway_600SemiBold",
-                    fontSize: 18,
-                  },
-                ]}
-              >
-                Accessories
-              </Text>
-            </View>
-            <Accessories />
-          </View>
-        ) : (
-          <ProductLoader />
+          <Fragment>
+            {wearables.length > 0 && (
+              <View style={{ flex: 1 }}>
+                <View style={tw`m-5`}>
+                  <Text
+                    style={[
+                      tw`text-base`,
+                      {
+                        color: colorScheme === "light" ? "#5956E9" : "white",
+                        fontFamily: "Raleway_600SemiBold",
+                        fontSize: 18,
+                      },
+                    ]}
+                  >
+                    Wearables
+                  </Text>
+                </View>
+                <Wearables />
+              </View>
+            )}
+            {laptops.length > 0 && (
+              <View style={{ flex: 1 }}>
+                <View style={tw`m-5`}>
+                  <Text
+                    style={[
+                      tw`text-base`,
+                      {
+                        color: colorScheme === "light" ? "#5956E9" : "white",
+                        fontFamily: "Raleway_600SemiBold",
+                        fontSize: 18,
+                      },
+                    ]}
+                  >
+                    Laptops
+                  </Text>
+                </View>
+                <Laptops />
+              </View>
+            )}
+            {phones.length > 0 && (
+              <View style={{ flex: 1 }}>
+                <View style={tw`m-5`}>
+                  <Text
+                    style={[
+                      tw`text-base`,
+                      {
+                        color: colorScheme === "light" ? "#5956E9" : "white",
+                        fontFamily: "Raleway_600SemiBold",
+                        fontSize: 18,
+                      },
+                    ]}
+                  >
+                    Phones
+                  </Text>
+                </View>
+                <Phones />
+              </View>
+            )}
+            {accessories.length > 0 && (
+              <View style={[tw`mb-25`, { flex: 1 }]}>
+                <View style={tw`m-5`}>
+                  <Text
+                    style={[
+                      tw`text-base`,
+                      {
+                        color: colorScheme === "light" ? "#5956E9" : "white",
+                        fontFamily: "Raleway_600SemiBold",
+                        fontSize: 18,
+                      },
+                    ]}
+                  >
+                    Accessories
+                  </Text>
+                </View>
+                <Accessories />
+              </View>
+            )}
+          </Fragment>
         )}
       </ScrollView>
     </SafeAreaView>

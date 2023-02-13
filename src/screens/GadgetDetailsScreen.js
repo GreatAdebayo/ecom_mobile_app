@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import React, { Fragment, useContext, useEffect } from "react";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
@@ -8,7 +14,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { GeneralContext } from "../contexts/general/state";
 import { ProductContext } from "../contexts/products/state";
 import { SliderBox } from "react-native-image-slider-box";
-import { ProductLoader } from "../components/SkeletonLoader";
 
 const GadgetDetailsScreen = ({ navigation, route }) => {
   const { colorScheme } = useContext(GeneralContext);
@@ -96,7 +101,10 @@ const GadgetDetailsScreen = ({ navigation, route }) => {
             ]}
           >
             {isProductDetailsLoading ? (
-              <ProductLoader />
+              <ActivityIndicator
+                size="small"
+                color={colorScheme === "light" ? "#5956E9" : "white"}
+              />
             ) : (
               variant.images && (
                 <SliderBox
@@ -123,7 +131,10 @@ const GadgetDetailsScreen = ({ navigation, route }) => {
           ]}
         >
           {isProductDetailsLoading ? (
-            <ProductLoader />
+            <ActivityIndicator
+              size="small"
+              color={colorScheme === "light" ? "#5956E9" : "white"}
+            />
           ) : (
             <Fragment>
               <View style={tw`mx-3`}>
