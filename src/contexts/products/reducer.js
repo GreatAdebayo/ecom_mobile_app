@@ -21,6 +21,12 @@ import {
   REMOVE_FROM_BASKET,
   INCREASE_QUANTITY,
   REDUCE_QUANTITY,
+  GET_BASKET_LOADING,
+  GET_BASKET_SUCCESS,
+  GET_BASKET_FAILED,
+  NEW_ORDER_LOADING,
+  NEW_ORDER_SUCCESS,
+  NEW_ORDER_FAILED,
 } from "./action";
 
 const productReducer = (state, action) => {
@@ -150,6 +156,47 @@ const productReducer = (state, action) => {
         basket: action.payload,
       };
 
+    case GET_BASKET_LOADING:
+      return {
+        ...state,
+        isGetBasketLoading: true,
+      };
+
+    case GET_BASKET_SUCCESS:
+      return {
+        ...state,
+        isGetBasketLoading: false,
+        basket: action.payload,
+        basketErrMsg: {},
+      };
+
+    case GET_BASKET_FAILED:
+      return {
+        ...state,
+        isGetBasketLoading: false,
+        basketErrMsg: { msg: action.payload, type: "bad" },
+      };
+    case NEW_ORDER_LOADING:
+      return {
+        ...state,
+        newOrderLoading: true,
+      };
+
+    case NEW_ORDER_SUCCESS:
+      return {
+        ...state,
+        newOrderLoading: false,
+        order: action.payload,
+        newOrderErrMsg: {},
+      };
+
+    case NEW_ORDER_FAILED:
+      return {
+        ...state,
+        newOrderLoading: false,
+        order: {},
+        newOrderErrMsg: { msg: action.payload, type: "bad" },
+      };
     default:
       return state;
   }

@@ -5,7 +5,6 @@ import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { GeneralContext } from "../contexts/general/state";
 import { ProductContext } from "../contexts/products/state";
-import { ProductLoader } from "./SkeletonLoader";
 
 const Wearables = () => {
   const navigation = useNavigation();

@@ -1,7 +1,13 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useEffect } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { Octicons } from "@expo/vector-icons";
 import { GeneralContext } from "../contexts/general/state";
@@ -10,9 +16,22 @@ import { ProductContext } from "../contexts/products/state";
 const Basket = () => {
   const navigation = useNavigation();
   const { colorScheme } = useContext(GeneralContext);
-  const { basket, increaseQuantity, reduceQuantity, removeFromBasket } =
-    useContext(ProductContext);
+  const {
+    basket,
+    increaseQuantity,
+    reduceQuantity,
+    removeFromBasket,
+    checkout,
+    newOrderLoading,
+    order,
+    newOrderErrMsg,
+  } = useContext(ProductContext);
 
+  useEffect(() => {
+    if (order.orderId) {
+      navigation.navigate("checkout");
+    }
+  }, [order]);
   return (
     <Fragment>
       <SwipeListView
@@ -216,8 +235,9 @@ const Basket = () => {
           },
         ]}
         onPress={() => {
-          navigation.navigate("checkout");
+          checkout();
         }}
+        disabled={newOrderLoading}
       >
         <Text
           style={[
@@ -225,7 +245,14 @@ const Basket = () => {
             { color: "white", fontFamily: "Raleway_700Bold" },
           ]}
         >
-          Checkout
+          {newOrderLoading ? (
+            <ActivityIndicator
+              size="small"
+              color={colorScheme === "light" ? "#5956E9" : "white"}
+            />
+          ) : (
+            "Checkout"
+          )}
         </Text>
       </TouchableOpacity>
     </Fragment>

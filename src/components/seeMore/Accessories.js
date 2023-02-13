@@ -21,11 +21,10 @@ const Accessories = () => {
         accessories.map((item, index) => (
           <TouchableOpacity
             style={[
-              tw`p-5 m-1 w-50`,
+              tw`p-5 m-2`,
               {
                 borderRadius: 15,
                 alignItems: "center",
-                flexBasis: "auto",
                 backgroundColor: colorScheme === "light" ? "white" : "#1A1A1A",
               },
             ]}

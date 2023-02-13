@@ -14,7 +14,9 @@ const Order = () => {
         <TouchableOpacity
           key={index}
           onPress={() => {
-            navigation.navigate("gadget_details");
+            navigation.navigate("gadget_details", {
+              id: item._id,
+            });
           }}
         >
           <View
@@ -23,7 +25,7 @@ const Order = () => {
               {
                 flexDirection: "row",
                 alignItems: "center",
-                backgroundColor: colorScheme === "light" ? "white" : "black",
+                backgroundColor: colorScheme === "light" ? "white" : "#1A1A1A",
               },
             ]}
           >

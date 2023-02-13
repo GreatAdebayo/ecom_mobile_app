@@ -22,10 +22,17 @@ import {
   REMOVE_FROM_BASKET,
   INCREASE_QUANTITY,
   REDUCE_QUANTITY,
+  GET_BASKET_LOADING,
+  GET_BASKET_SUCCESS,
+  GET_BASKET_FAILED,
+  NEW_ORDER_LOADING,
+  NEW_ORDER_SUCCESS,
+  NEW_ORDER_FAILED,
 } from "./action";
 import { createContext, useReducer } from "react";
 import axios from "axios";
 import { baseUrl } from "../../utils/baseUrl";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const ProductContext = createContext();
 
@@ -49,9 +56,20 @@ export const ProductState = (props) => {
     variant: {},
     favorites: [],
     basket: [],
+    isGetBasketLoading: false,
+    basketErrMsg: {},
+    newOrderLoading: false,
+    order: {},
+    newOrderErrMsg: {},
   };
 
   const [state, dispatch] = useReducer(productReducer, initialState);
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
 
   const getProducts = async (type) => {
     try {
@@ -214,7 +232,7 @@ export const ProductState = (props) => {
     });
   };
 
-  const addToBasket = (product) => {
+  const addToBasket = async (product) => {
     const findBasket = state.basket.find((f) => f._id === product._id);
     if (!findBasket) {
       let addQTyToProduct = {
@@ -226,15 +244,37 @@ export const ProductState = (props) => {
         type: ADD_TO_BASKET,
         payload: addQTyToProduct,
       });
+      // save basket in Local Storage
+      const basket = JSON.parse(await AsyncStorage.getItem("@EcommBasket"));
+      if (!basket) {
+        const newBasket = [];
+        newBasket.push(addQTyToProduct);
+        await AsyncStorage.setItem("@EcommBasket", JSON.stringify(newBasket));
+      } else {
+        basket.push(addQTyToProduct);
+        await AsyncStorage.setItem("@EcommBasket", JSON.stringify(basket));
+      }
     }
   };
 
-  const removeFromBasket = (_id) => {
+  const getBasket = async () => {
+    dispatch({
+      type: GET_BASKET_LOADING,
+    });
+    const value = JSON.parse(await AsyncStorage.getItem("@EcommBasket"));
+    dispatch({
+      type: GET_BASKET_SUCCESS,
+      payload: value,
+    });
+  };
+
+  const removeFromBasket = async (_id) => {
     const filteredBasket = state.basket.filter((f) => f._id !== _id);
     dispatch({
       type: REMOVE_FROM_BASKET,
       payload: filteredBasket,
     });
+    await AsyncStorage.setItem("@EcommBasket", JSON.stringify(filteredBasket));
   };
 
   const increaseQuantity = (product) => {
@@ -256,6 +296,36 @@ export const ProductState = (props) => {
         type: REDUCE_QUANTITY,
         payload: state.basket,
       });
+    }
+  };
+
+  const checkout = async () => {
+    dispatch({
+      type: NEW_ORDER_LOADING,
+    });
+    const checkout = state.basket.map((basket) => ({
+      _id: basket._id,
+      quantity: basket.quantity,
+      price: basket.price,
+    }));
+    try {
+      const res = await axios.post(`${baseUrl}/order`, checkout, config);
+      dispatch({
+        type: NEW_ORDER_SUCCESS,
+        payload: res.data,
+      });
+    } catch (error) {
+      const { data, status } = error.response;
+      if (error.message === "Network Error")
+        dispatch({
+          type: NEW_ORDER_FAILED,
+          payload: "server not responding",
+        });
+      if (data)
+        dispatch({
+          type: NEW_ORDER_FAILED,
+          payload: status === 503 ? "server error" : data.error,
+        });
     }
   };
 
@@ -292,6 +362,13 @@ export const ProductState = (props) => {
         basket: state.basket,
         increaseQuantity,
         reduceQuantity,
+        getBasket,
+        isGetBasketLoading: state.isGetBasketLoading,
+        basketErrMsg: state.basketErrMsg,
+        checkout,
+        newOrderLoading: state.newOrderLoading,
+        order: state.order,
+        newOrderErrMsg: state.newOrderErrMsg,
       }}
     >
       {props.children}

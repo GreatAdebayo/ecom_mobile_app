@@ -21,11 +21,10 @@ const Phones = () => {
         phones.map((item, index) => (
           <TouchableOpacity
             style={[
-              tw`p-5 m-1 w-50`,
+              tw`p-5 m-2`,
               {
                 borderRadius: 15,
                 alignItems: "center",
-                flexBasis: "auto",
                 backgroundColor: colorScheme === "light" ? "white" : "#1A1A1A",
               },
             ]}
@@ -52,8 +51,8 @@ const Phones = () => {
                 },
               ]}
             >
-              {item.name && item.name.slice(0, 11)}
-              {item.name && [...item.name].length > 11 && "..."}
+              {item.name && item.name.slice(0, 10)}
+              {item.name && [...item.name].length > 10 && "..."}
             </Text>
             <Text
               style={[

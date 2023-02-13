@@ -7,9 +7,12 @@ import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GeneralContext } from "../contexts/general/state";
+import { ScrollView } from "react-native-gesture-handler";
+import { ProductContext } from "../contexts/products/state";
 
 const CheckoutScreen = ({ navigation }) => {
   const { colorScheme } = useContext(GeneralContext);
+  const { order } = useContext(ProductContext);
   return (
     <SafeAreaView
       style={{
@@ -18,13 +21,14 @@ const CheckoutScreen = ({ navigation }) => {
         backgroundColor: colorScheme === "light" ? "#E5E5E5" : "black",
       }}
     >
-      <View
+      <ScrollView
         style={[
           tw`pt-3 px-8`,
           {
             flex: 1,
           },
         ]}
+        contentContainerStyle={{ flexGrow: 1 }}
       >
         <View
           style={[
@@ -61,6 +65,119 @@ const CheckoutScreen = ({ navigation }) => {
           <View></View>
         </View>
 
+        <View
+          style={[
+            tw`mt-5`,
+            { flexDirection: "row", justifyContent: "space-between" },
+          ]}
+        >
+          <Text
+            style={[
+              tw`text-base`,
+              {
+                fontFamily: "Raleway_600SemiBold",
+                color: colorScheme === "light" ? "#200E32" : "white",
+              },
+            ]}
+          >
+            Order Information
+          </Text>
+        </View>
+        <View style={tw`mt-5`}>
+          <View
+            style={[
+              tw`rounded-xl p-8 mb-3 py-10`,
+              {
+                backgroundColor:
+                  colorScheme === "light" ? "#E5E5E5" : "#1A1A1A",
+              },
+            ]}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text
+                style={[
+                  tw`text-base`,
+                  {
+                    fontFamily: "Raleway_400Regular",
+                    color: colorScheme === "light" ? "#200E32" : "white",
+                  },
+                ]}
+              >
+                Order ID:
+              </Text>
+              <View style={tw`ml-2`}>
+                <Text
+                  style={[
+                    tw`text-base`,
+                    {
+                      fontFamily: "Raleway_400Regular",
+                      color: colorScheme === "light" ? "#200E32" : "white",
+                    },
+                  ]}
+                >
+                  {order.orderId && order.orderId.slice(0, 20)}
+                  {order.orderId && [...order.orderId].length > 11 && "..."}
+                </Text>
+              </View>
+            </View>
+            <View
+              style={[tw`mt-4`, { flexDirection: "row", alignItems: "center" }]}
+            >
+              <Text
+                style={[
+                  tw`text-base`,
+                  {
+                    fontFamily: "Raleway_400Regular",
+                    color: colorScheme === "light" ? "#200E32" : "white",
+                  },
+                ]}
+              >
+                Status:
+              </Text>
+              <View style={tw`ml-2`}>
+                <Text
+                  style={[
+                    tw`text-base capitalize`,
+                    {
+                      fontFamily: "Raleway_400Regular",
+                      color: colorScheme === "light" ? "#200E32" : "white",
+                    },
+                  ]}
+                >
+                  {order.status}
+                </Text>
+              </View>
+            </View>
+            <View
+              style={[tw`mt-4`, { flexDirection: "row", alignItems: "center" }]}
+            >
+              <Text
+                style={[
+                  tw`text-base`,
+                  {
+                    fontFamily: "Raleway_400Regular",
+                    color: colorScheme === "light" ? "#200E32" : "white",
+                  },
+                ]}
+              >
+                No of Gadgets:
+              </Text>
+              <View style={tw`ml-2`}>
+                <Text
+                  style={[
+                    tw`text-base`,
+                    {
+                      fontFamily: "Raleway_400Regular",
+                      color: colorScheme === "light" ? "#200E32" : "white",
+                    },
+                  ]}
+                >
+                  {order.noOfProducts}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
         <View
           style={[
             tw`mt-8`,
@@ -194,7 +311,7 @@ const CheckoutScreen = ({ navigation }) => {
               },
             ]}
           >
-            $579
+            ₦{order.totalCost}
           </Text>
         </View>
         <TouchableOpacity
@@ -220,7 +337,7 @@ const CheckoutScreen = ({ navigation }) => {
             Confirm and pay
           </Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
