@@ -73,7 +73,7 @@ const BasketScreen = ({ navigation }) => {
             size="small"
             color={colorScheme === "light" ? "#5956E9" : "white"}
           />
-        ) : basket.length > 0 ? (
+        ) : basket !== null ? (
           <Basket />
         ) : (
           <EmptyBaasket />

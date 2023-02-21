@@ -12,6 +12,7 @@ import NoInternetScreen from "../screens/NoInternetScreen";
 import SignUpScreen from "../screens/SignupScreen";
 import { GeneralContext } from "../contexts/general/state";
 import { StatusBar } from "expo-status-bar";
+import EmailConfirmationScreen from "../screens/EmailConfirmScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -81,6 +82,13 @@ const StackNavigator = () => {
             <Stack.Screen
               name="checkout"
               component={CheckoutScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="email_confirm"
+              component={EmailConfirmationScreen}
               options={{
                 headerShown: false,
               }}

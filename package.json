@@ -27,6 +27,7 @@
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
     "expo-updates": "~0.14.7",
+    "formik": "^2.2.9",
     "react": "18.0.0",
     "react-content-loader": "^6.2.0",
     "react-native": "0.69.6",
@@ -41,7 +42,8 @@
     "react-native-swipe-list-view": "^3.2.9",
     "react-navigation": "^4.4.4",
     "react-navigation-drawer": "^2.7.2",
-    "twrnc": "^3.4.0"
+    "twrnc": "^3.4.0",
+    "yup": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

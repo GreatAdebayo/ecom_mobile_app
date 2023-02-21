@@ -23,6 +23,8 @@ import {
 import StackNavigator from "./src/navigation/StackNavigator";
 import { GeneralState } from "./src/contexts/general/state";
 import { ProductState } from "./src/contexts/products/state";
+import { AuthState } from "./src/contexts/auth/state";
+import { AlertState } from "./src/contexts/alert/state";
 
 const App = () => {
   const [fontsLoaded] = useFonts({
@@ -50,13 +52,17 @@ const App = () => {
   }
   return (
     <SafeAreaProvider>
-      <GeneralState>
-        <ProductState>
-          <NavigationContainer>
-            <StackNavigator />
-          </NavigationContainer>
-        </ProductState>
-      </GeneralState>
+      <AlertState>
+        <GeneralState>
+          <ProductState>
+            <AuthState>
+              <NavigationContainer>
+                <StackNavigator />
+              </NavigationContainer>
+            </AuthState>
+          </ProductState>
+        </GeneralState>
+      </AlertState>
     </SafeAreaProvider>
   );
 };
