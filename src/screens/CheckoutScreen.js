@@ -150,7 +150,11 @@ const CheckoutScreen = ({ navigation }) => {
               <View style={tw`ml-2`}>
                 <Text
                   style={[
-                    tw`text-base capitalize`,
+                    tw`text-base capitalize ${
+                      order.status === "unpaid"
+                        ? "text-red-500"
+                        : "text-green-700"
+                    }`,
                     {
                       fontFamily: "Raleway_400Regular",
                       color: colorScheme === "light" ? "#200E32" : "white",
