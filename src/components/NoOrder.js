@@ -1,8 +1,10 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { Fragment } from "react";
 import tw from "twrnc";
+import { useNavigation } from "@react-navigation/native";
 
 const NoOrder = () => {
+  const navigation = useNavigation();
   return (
     <Fragment>
       <View style={{ alignItems: "center" }}>
@@ -37,6 +39,9 @@ const NoOrder = () => {
             backgroundColor: "#58C0EA",
           },
         ]}
+        onPress={() => {
+          navigation.navigate("index");
+        }}
       >
         <Text
           style={[

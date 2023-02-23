@@ -33,6 +33,9 @@ import {
   FETCH_ORDER_DETAILS_LOADING,
   FETCH_ORDER_DETAILS_SUCCESS,
   FETCH_ORDER_DETAILS_FAILED,
+  PAYMENT_LOADING,
+  PAYMENT_SUCCESS,
+  PAYMENT_FAILED,
 } from "./action";
 
 const productReducer = (state, action) => {
@@ -247,7 +250,23 @@ const productReducer = (state, action) => {
         orderDetails: [],
         fetchOrderDetailsErrMsg: { msg: action.payload, type: "bad" },
       };
-
+    case PAYMENT_LOADING:
+      return {
+        ...state,
+        paymentLoading: true,
+      };
+    case PAYMENT_SUCCESS:
+      return {
+        ...state,
+        paymentLoading: false,
+        paymentMsg: { msg: "payment successful", type: "good" },
+      };
+    case PAYMENT_FAILED:
+      return {
+        ...state,
+        paymentLoading: false,
+        paymentErrMsg: { msg: action.payload, type: "bad" },
+      };
     default:
       return state;
   }

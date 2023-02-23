@@ -99,7 +99,7 @@ const OrderDetails = () => {
         >
           Product
           {orderDetails.productsPurchased &&
-          orderDetails.productsPurchased.length > 0
+          orderDetails.productsPurchased.length > 1
             ? "s"
             : ""}{" "}
           Purchased

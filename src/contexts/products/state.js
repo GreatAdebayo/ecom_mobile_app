@@ -34,6 +34,9 @@ import {
   FETCH_ORDER_DETAILS_LOADING,
   FETCH_ORDER_DETAILS_SUCCESS,
   FETCH_ORDER_DETAILS_FAILED,
+  PAYMENT_LOADING,
+  PAYMENT_SUCCESS,
+  PAYMENT_FAILED,
 } from "./action";
 import { createContext, useReducer } from "react";
 import axios from "axios";
@@ -73,6 +76,9 @@ export const ProductState = (props) => {
     fetchOrderDetailsLoading: false,
     orderDetails: [],
     fetchOrderDetailsErrMsg: {},
+    paymentLoading: false,
+    paymentMsg: {},
+    paymentErrMsg: {},
   };
 
   const [state, dispatch] = useReducer(productReducer, initialState);
@@ -393,6 +399,30 @@ export const ProductState = (props) => {
     }
   };
 
+  const payment = async (id) => {
+    dispatch({
+      type: PAYMENT_LOADING,
+    });
+    try {
+      await axios.put(`${baseUrl}/order/${id}`);
+      dispatch({
+        type: PAYMENT_SUCCESS,
+      });
+    } catch (error) {
+      const { data, status } = error.response;
+      if (error.message === "Network Error")
+        dispatch({
+          type: PAYMENT_FAILED,
+          payload: "server not responding",
+        });
+      if (data)
+        dispatch({
+          type: PAYMENT_FAILED,
+          payload: status === 503 ? "server error" : data.error,
+        });
+    }
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -441,6 +471,10 @@ export const ProductState = (props) => {
         fetchOrders,
         fetchOrderDetails,
         fetchOrdersLoading: state.fetchOrdersLoading,
+        payment,
+        paymentMsg: state.paymentMsg,
+        paymentErrMsg: state.paymentErrMsg,
+        paymentLoading: state.paymentLoading,
       }}
     >
       {props.children}

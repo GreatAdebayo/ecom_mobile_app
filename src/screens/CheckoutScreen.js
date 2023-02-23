@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React, { useContext } from "react";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import React, { useContext, useEffect } from "react";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -9,10 +9,23 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { GeneralContext } from "../contexts/general/state";
 import { ScrollView } from "react-native-gesture-handler";
 import { ProductContext } from "../contexts/products/state";
+import { AlertContext } from "../contexts/alert/state";
+import { Alert } from "../components/Alert";
 
 const CheckoutScreen = ({ navigation }) => {
   const { colorScheme } = useContext(GeneralContext);
-  const { order } = useContext(ProductContext);
+  const { order, payment, paymentMsg, paymentLoading } =
+    useContext(ProductContext);
+
+  const { setAlert } = useContext(AlertContext);
+
+  useEffect(() => {
+    if (paymentMsg.msg) {
+      setAlert(paymentMsg.msg, "success");
+      navigation.navigate("orders");
+    }
+  }, [paymentMsg]);
+
   return (
     <SafeAreaView
       style={{
@@ -64,7 +77,7 @@ const CheckoutScreen = ({ navigation }) => {
           </Text>
           <View></View>
         </View>
-
+        <Alert />
         <View
           style={[
             tw`mt-5`,
@@ -325,8 +338,9 @@ const CheckoutScreen = ({ navigation }) => {
             },
           ]}
           onPress={() => {
-            navigation.navigate("checkout");
+            payment(order.orderId);
           }}
+          disabled={paymentLoading}
         >
           <Text
             style={[
@@ -334,7 +348,14 @@ const CheckoutScreen = ({ navigation }) => {
               { color: "white", fontFamily: "Raleway_700Bold" },
             ]}
           >
-            Confirm and pay
+            {paymentLoading ? (
+              <ActivityIndicator
+                size="small"
+                color={colorScheme === "light" ? "white" : "black"}
+              />
+            ) : (
+              " Confirm and pay"
+            )}
           </Text>
         </TouchableOpacity>
       </ScrollView>
