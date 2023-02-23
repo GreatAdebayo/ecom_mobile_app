@@ -83,9 +83,6 @@ const HomeScreen = ({ navigation }) => {
               tw`p-4`,
               {
                 flex: 5,
-                borderRadius: 30,
-                borderColor: "gray",
-                borderWidth: 0.3,
                 flexDirection: "row",
                 alignItems: "center",
               },
@@ -99,15 +96,17 @@ const HomeScreen = ({ navigation }) => {
               size={24}
               color={colorScheme === "light" ? "black" : "white"}
             />
-            <TextInput
-              placeholder="Search Gadget"
-              style={[
-                tw`pl-2 w-full`,
-                { fontFamily: "Raleway_400Regular", fontSize: 17 },
-              ]}
-              placeholderTextColor={colorScheme === "light" ? "gray" : "white"}
-              autoCapitalize="none"
-            />
+            <View style={tw`ml-3`}>
+              <Text
+                style={{
+                  color: colorScheme === "light" ? "gray" : "white",
+                  fontSize: 20,
+                  fontFamily: "Raleway_700Bold",
+                }}
+              >
+                Search a Gadget
+              </Text>
+            </View>
           </Pressable>
         </View>
         <View style={tw`ml-10 my-10`}>

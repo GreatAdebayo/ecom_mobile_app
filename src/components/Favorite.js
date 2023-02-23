@@ -17,6 +17,7 @@ const Favorite = () => {
     basket,
     removeFromBasket,
   } = useContext(ProductContext);
+
   return (
     <SwipeListView
       showsVerticalScrollIndicator={false}

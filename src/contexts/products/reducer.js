@@ -21,9 +21,9 @@ import {
   REMOVE_FROM_BASKET,
   INCREASE_QUANTITY,
   REDUCE_QUANTITY,
-  GET_BASKET_LOADING,
-  GET_BASKET_SUCCESS,
-  GET_BASKET_FAILED,
+  GET_FAVORITE_LOADING,
+  GET_FAVORITE_SUCCESS,
+  GET_FAVORITE_FAILED,
   NEW_ORDER_LOADING,
   NEW_ORDER_SUCCESS,
   NEW_ORDER_FAILED,
@@ -36,6 +36,9 @@ import {
   PAYMENT_LOADING,
   PAYMENT_SUCCESS,
   PAYMENT_FAILED,
+  SEARCH_PRODUCT_LOADING,
+  SEARCH_PRODUCT_SUCCESS,
+  SEARCH_PRODUCT_FAILED,
 } from "./action";
 
 const productReducer = (state, action) => {
@@ -165,26 +168,6 @@ const productReducer = (state, action) => {
         basket: action.payload,
       };
 
-    case GET_BASKET_LOADING:
-      return {
-        ...state,
-        isGetBasketLoading: true,
-      };
-
-    case GET_BASKET_SUCCESS:
-      return {
-        ...state,
-        isGetBasketLoading: false,
-        basket: action.payload,
-        basketErrMsg: {},
-      };
-
-    case GET_BASKET_FAILED:
-      return {
-        ...state,
-        isGetBasketLoading: false,
-        basketErrMsg: { msg: action.payload, type: "bad" },
-      };
     case NEW_ORDER_LOADING:
       return {
         ...state,
@@ -266,6 +249,47 @@ const productReducer = (state, action) => {
         ...state,
         paymentLoading: false,
         paymentErrMsg: { msg: action.payload, type: "bad" },
+      };
+
+    case SEARCH_PRODUCT_LOADING:
+      return {
+        ...state,
+        searchProductLoading: true,
+      };
+
+    case SEARCH_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        searchProductLoading: false,
+        searchedProducts: action.payload.products,
+        searchProductMsg: action.payload.msg,
+      };
+
+    case SEARCH_PRODUCT_FAILED:
+      return {
+        ...state,
+        searchProductLoading: false,
+        searchedProducts: [],
+        searchProductMsg: "",
+      };
+
+    case GET_FAVORITE_LOADING:
+      return {
+        ...state,
+        getFavoritesLoading: true,
+      };
+
+    case GET_FAVORITE_SUCCESS:
+      return {
+        ...state,
+        getFavoritesLoading: false,
+        favoritesErrMsg: {},
+        favorites: action.payload,
+      };
+    case GET_FAVORITE_FAILED:
+      return {
+        ...state,
+        favoritesErrMsg: { msg: action.payload, type: "bad" },
       };
     default:
       return state;

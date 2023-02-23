@@ -22,9 +22,9 @@ import {
   REMOVE_FROM_BASKET,
   INCREASE_QUANTITY,
   REDUCE_QUANTITY,
-  GET_BASKET_LOADING,
-  GET_BASKET_SUCCESS,
-  GET_BASKET_FAILED,
+  GET_FAVORITE_LOADING,
+  GET_FAVORITE_SUCCESS,
+  GET_FAVORITE_FAILED,
   NEW_ORDER_LOADING,
   NEW_ORDER_SUCCESS,
   NEW_ORDER_FAILED,
@@ -37,11 +37,13 @@ import {
   PAYMENT_LOADING,
   PAYMENT_SUCCESS,
   PAYMENT_FAILED,
+  SEARCH_PRODUCT_LOADING,
+  SEARCH_PRODUCT_SUCCESS,
+  SEARCH_PRODUCT_FAILED,
 } from "./action";
 import { createContext, useReducer } from "react";
 import axios from "axios";
 import { baseUrl } from "../../utils/baseUrl";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const ProductContext = createContext();
 
@@ -79,6 +81,11 @@ export const ProductState = (props) => {
     paymentLoading: false,
     paymentMsg: {},
     paymentErrMsg: {},
+    searchedProducts: [],
+    searchProductLoading: false,
+    searchProductMsg: "",
+    getFavoritesLoading: false,
+    favoritesErrMsg: {},
   };
 
   const [state, dispatch] = useReducer(productReducer, initialState);
@@ -233,21 +240,28 @@ export const ProductState = (props) => {
     });
   };
 
-  const addToFavorites = (product) => {
+  const addToFavorites = async (product) => {
     const findFavorites = state.favorites.find((f) => f._id === product._id);
-    if (!findFavorites)
+    if (!findFavorites) {
       dispatch({
         type: ADD_TO_FAVORITES,
         payload: product,
       });
+      try {
+        await axios.post(`${baseUrl}/favorite`, { _id: product._id }, config);
+      } catch (error) {}
+    }
   };
 
-  const removeFromFavorites = (_id) => {
+  const removeFromFavorites = async (_id) => {
     const filteredFavorites = state.favorites.filter((f) => f._id !== _id);
     dispatch({
       type: REMOVE_FROM_FAVORITES,
       payload: filteredFavorites,
     });
+    try {
+      await axios.delete(`${baseUrl}/favorite/${_id}`);
+    } catch (error) {}
   };
 
   const addToBasket = async (product) => {
@@ -262,28 +276,7 @@ export const ProductState = (props) => {
         type: ADD_TO_BASKET,
         payload: addQTyToProduct,
       });
-      // save basket in Local Storage
-      const basket = JSON.parse(await AsyncStorage.getItem("@EcommBasket"));
-      if (!basket) {
-        const newBasket = [];
-        newBasket.push(addQTyToProduct);
-        await AsyncStorage.setItem("@EcommBasket", JSON.stringify(newBasket));
-      } else {
-        basket.push(addQTyToProduct);
-        await AsyncStorage.setItem("@EcommBasket", JSON.stringify(basket));
-      }
     }
-  };
-
-  const getBasket = async () => {
-    dispatch({
-      type: GET_BASKET_LOADING,
-    });
-    const value = JSON.parse(await AsyncStorage.getItem("@EcommBasket"));
-    dispatch({
-      type: GET_BASKET_SUCCESS,
-      payload: value,
-    });
   };
 
   const removeFromBasket = async (_id) => {
@@ -292,7 +285,6 @@ export const ProductState = (props) => {
       type: REMOVE_FROM_BASKET,
       payload: filteredBasket,
     });
-    await AsyncStorage.setItem("@EcommBasket", JSON.stringify(filteredBasket));
   };
 
   const increaseQuantity = (product) => {
@@ -423,6 +415,57 @@ export const ProductState = (props) => {
     }
   };
 
+  const searchProduct = async (value) => {
+    dispatch({
+      type: SEARCH_PRODUCT_LOADING,
+    });
+    try {
+      const res = await axios.get(`${baseUrl}/search-product/${value}`);
+      const { msg, products } = res.data;
+      dispatch({ type: SEARCH_PRODUCT_SUCCESS, payload: { msg, products } });
+    } catch (error) {
+      const { data, status } = error.response;
+      if (error.message === "Network Error")
+        dispatch({
+          type: SEARCH_PRODUCT_FAILED,
+          payload: "server not responding",
+        });
+      if (data)
+        dispatch({
+          type: SEARCH_PRODUCT_FAILED,
+          payload: status === 503 ? "server error" : data.error,
+        });
+    }
+  };
+
+  const getFavorites = async () => {
+    dispatch({
+      type: GET_FAVORITE_LOADING,
+    });
+    try {
+      const res = await axios.get(`${baseUrl}/favorite`);
+      const { favorite } = res.data;
+      dispatch({
+        type: GET_FAVORITE_SUCCESS,
+        payload: favorite.map((item) => ({
+          ...item._id,
+        })),
+      });
+    } catch (error) {
+      const { data, status } = error.response;
+      if (error.message === "Network Error")
+        dispatch({
+          type: GET_FAVORITE_FAILED,
+          payload: "server not responding",
+        });
+      if (data)
+        dispatch({
+          type: GET_FAVORITE_FAILED,
+          payload: status === 503 ? "server error" : data.error,
+        });
+    }
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -456,7 +499,6 @@ export const ProductState = (props) => {
         basket: state.basket,
         increaseQuantity,
         reduceQuantity,
-        getBasket,
         isGetBasketLoading: state.isGetBasketLoading,
         basketErrMsg: state.basketErrMsg,
         checkout,
@@ -475,6 +517,13 @@ export const ProductState = (props) => {
         paymentMsg: state.paymentMsg,
         paymentErrMsg: state.paymentErrMsg,
         paymentLoading: state.paymentLoading,
+        searchedProducts: state.searchedProducts,
+        searchProductLoading: state.searchProductLoading,
+        searchProduct,
+        searchProductMsg: state.searchProductMsg,
+        getFavorites,
+        getFavoritesLoading: state.getFavoritesLoading,
+        favoritesErrMsg: state.favoritesErrMsg,
       }}
     >
       {props.children}

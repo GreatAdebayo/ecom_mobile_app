@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React, { useContext } from "react";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import React, { useContext, useEffect } from "react";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import NoFavorite from "../components/NoFavorite";
@@ -10,7 +10,11 @@ import { ProductContext } from "../contexts/products/state";
 
 const FavoriteScreen = ({ navigation }) => {
   const { colorScheme } = useContext(GeneralContext);
-  const { favorites } = useContext(ProductContext);
+  const { favorites, getFavorites, getFavoritesLoading } =
+    useContext(ProductContext);
+  useEffect(() => {
+    getFavorites();
+  }, []);
   return (
     <SafeAreaView
       style={{
@@ -64,7 +68,16 @@ const FavoriteScreen = ({ navigation }) => {
           </Text>
           <View></View>
         </View>
-        {favorites.length > 0 ? <Favorite /> : <NoFavorite />}
+        {getFavoritesLoading ? (
+          <ActivityIndicator
+            size="small"
+            color={colorScheme === "light" ? "#5956E9" : "white"}
+          />
+        ) : favorites.length > 0 ? (
+          <Favorite />
+        ) : (
+          <NoFavorite />
+        )}
       </View>
     </SafeAreaView>
   );

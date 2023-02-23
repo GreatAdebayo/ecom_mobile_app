@@ -4,6 +4,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
@@ -13,9 +14,16 @@ import NotFound from "../components/NotFound";
 import Search from "../components/Search";
 import { GeneralContext } from "../contexts/general/state";
 import React, { useContext } from "react";
+import { ProductContext } from "../contexts/products/state";
 
 const SearchResultScreen = ({ navigation }) => {
   const { colorScheme } = useContext(GeneralContext);
+  const {
+    searchedProducts,
+    searchProductLoading,
+    searchProduct,
+    searchProductMsg,
+  } = useContext(ProductContext);
   return (
     <SafeAreaView
       style={{
@@ -73,6 +81,11 @@ const SearchResultScreen = ({ navigation }) => {
               ]}
               placeholderTextColor={colorScheme === "light" ? "gray" : "white"}
               autoCapitalize="none"
+              onChangeText={(value) => {
+                searchProduct(value);
+              }}
+              autoFocus
+              color={colorScheme === "light" ? "black" : "white"}
             />
           </View>
         </View>
@@ -92,11 +105,19 @@ const SearchResultScreen = ({ navigation }) => {
               color: colorScheme === "light" ? "black" : "white",
             }}
           >
-            Found 6 Gadgets
+            {searchProductMsg}
           </Text>
         </View>
-        {/* <NotFound /> */}
-        <Search />
+        {searchProductLoading ? (
+          <ActivityIndicator
+            size="small"
+            color={colorScheme === "light" ? "#5956E9" : "white"}
+          />
+        ) : searchedProducts.length > 0 ? (
+          <Search />
+        ) : (
+          <NotFound />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
-import React, { useContext, useEffect } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import React, { useContext } from "react";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import Basket from "../components/Basket";
@@ -10,11 +10,7 @@ import { ProductContext } from "../contexts/products/state";
 
 const BasketScreen = ({ navigation }) => {
   const { colorScheme } = useContext(GeneralContext);
-  const { basket, getBasket, isGetBasketLoading } = useContext(ProductContext);
-
-  useEffect(() => {
-    getBasket();
-  }, []);
+  const { basket } = useContext(ProductContext);
 
   return (
     <SafeAreaView
@@ -68,16 +64,7 @@ const BasketScreen = ({ navigation }) => {
           </Text>
           <View></View>
         </View>
-        {isGetBasketLoading ? (
-          <ActivityIndicator
-            size="small"
-            color={colorScheme === "light" ? "#5956E9" : "white"}
-          />
-        ) : basket !== null ? (
-          <Basket />
-        ) : (
-          <EmptyBaasket />
-        )}
+        {basket.length > 0 ? <Basket /> : <EmptyBaasket />}
       </View>
     </SafeAreaView>
   );
