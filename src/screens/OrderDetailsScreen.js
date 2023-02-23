@@ -6,22 +6,21 @@ import {
   RefreshControl,
   ActivityIndicator,
 } from "react-native";
-import React, { useContext, useEffect } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
-import NoOrder from "../components/NoOrder";
-import Order from "../components/Order";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GeneralContext } from "../contexts/general/state";
 import { ProductContext } from "../contexts/products/state";
+import OrderDetails from "../components/OrderDetails";
 
-const OrdersScreen = ({ navigation }) => {
+const OrderDetailsScreen = ({ navigation, route }) => {
   const { colorScheme } = useContext(GeneralContext);
-  const { fetchOrders, orders, fetchOrdersLoading } =
+  const { fetchOrderDetails, fetchOrderDetailsLoading } =
     useContext(ProductContext);
 
   useEffect(() => {
-    fetchOrders();
+    fetchOrderDetails(route.params.orderId);
   }, []);
 
   return (
@@ -43,9 +42,9 @@ const OrdersScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
-            isRefreshing={fetchOrdersLoading}
+            isRefreshing={fetchOrderDetailsLoading}
             onRefresh={() => {
-              fetchOrders();
+              fetchOrderDetails(route.params.orderId);
             }}
             tintColor={colorScheme === "light" ? "white" : "#5956E9"}
             colors={[colorScheme === "light" ? "white" : "#5956E9"]}
@@ -82,23 +81,21 @@ const OrdersScreen = ({ navigation }) => {
               },
             ]}
           >
-            Order History
+            {[...route.params.orderId].slice(0, 20)}...
           </Text>
           <View></View>
         </View>
-        {fetchOrdersLoading ? (
+        {fetchOrderDetailsLoading ? (
           <ActivityIndicator
             size="small"
             color={colorScheme === "light" ? "#5956E9" : "white"}
           />
-        ) : orders.length > 0 ? (
-          <Order />
         ) : (
-          <NoOrder />
+          <OrderDetails />
         )}
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default OrdersScreen;
+export default OrderDetailsScreen;

@@ -28,6 +28,12 @@ import {
   NEW_ORDER_LOADING,
   NEW_ORDER_SUCCESS,
   NEW_ORDER_FAILED,
+  FETCH_ORDERS_LOADING,
+  FETCH_ORDERS_SUCCESS,
+  FETCH_ORDERS_FAILED,
+  FETCH_ORDER_DETAILS_LOADING,
+  FETCH_ORDER_DETAILS_SUCCESS,
+  FETCH_ORDER_DETAILS_FAILED,
 } from "./action";
 import { createContext, useReducer } from "react";
 import axios from "axios";
@@ -61,6 +67,12 @@ export const ProductState = (props) => {
     newOrderLoading: false,
     order: {},
     newOrderErrMsg: {},
+    fetchOrdersLoading: false,
+    orders: [],
+    fetchOrdersErrMsg: {},
+    fetchOrderDetailsLoading: false,
+    orderDetails: [],
+    fetchOrderDetailsErrMsg: {},
   };
 
   const [state, dispatch] = useReducer(productReducer, initialState);
@@ -329,6 +341,58 @@ export const ProductState = (props) => {
     }
   };
 
+  const fetchOrders = async () => {
+    dispatch({
+      type: FETCH_ORDERS_LOADING,
+    });
+    try {
+      const res = await axios.get(`${baseUrl}/orders`);
+      const { orders } = res.data;
+      dispatch({
+        type: FETCH_ORDERS_SUCCESS,
+        payload: orders,
+      });
+    } catch (error) {
+      const { data, status } = error.response;
+      if (error.message === "Network Error")
+        dispatch({
+          type: FETCH_ORDERS_FAILED,
+          payload: "server not responding",
+        });
+      if (data)
+        dispatch({
+          type: FETCH_ORDERS_FAILED,
+          payload: status === 503 ? "server error" : data.error,
+        });
+    }
+  };
+
+  const fetchOrderDetails = async (id) => {
+    dispatch({
+      type: FETCH_ORDER_DETAILS_LOADING,
+    });
+    try {
+      const res = await axios.get(`${baseUrl}/order/${id}`);
+      const { order } = res.data;
+      dispatch({
+        type: FETCH_ORDER_DETAILS_SUCCESS,
+        payload: order,
+      });
+    } catch (error) {
+      const { data, status } = error.response;
+      if (error.message === "Network Error")
+        dispatch({
+          type: FETCH_ORDER_DETAILS_FAILED,
+          payload: "server not responding",
+        });
+      if (data)
+        dispatch({
+          type: FETCH_ORDER_DETAILS_FAILED,
+          payload: status === 503 ? "server error" : data.error,
+        });
+    }
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -369,6 +433,14 @@ export const ProductState = (props) => {
         newOrderLoading: state.newOrderLoading,
         order: state.order,
         newOrderErrMsg: state.newOrderErrMsg,
+        orders: state.orders,
+        fetchOrdersErrMsg: state.fetchOrdersErrMsg,
+        fetchOrderDetailsLoading: state.fetchOrderDetailsLoading,
+        orderDetails: state.orderDetails,
+        fetchOrderDetailsErrMsg: state.fetchOrderDetailsErrMsg,
+        fetchOrders,
+        fetchOrderDetails,
+        fetchOrdersLoading: state.fetchOrdersLoading,
       }}
     >
       {props.children}

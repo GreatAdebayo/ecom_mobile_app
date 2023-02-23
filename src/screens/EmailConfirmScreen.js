@@ -74,7 +74,6 @@ const EmailConfirmationScreen = ({ navigation, route }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
-            flex: 3,
             alignItems: "center",
             justifyContent: "center",
           }}
@@ -106,10 +105,9 @@ const EmailConfirmationScreen = ({ navigation, route }) => {
         </View>
         <View
           style={[
-            tw`p-8 mt-10`,
+            tw`p-8 mt-10 h-full`,
             {
               backgroundColor: colorScheme === "light" ? "white" : "#1A1A1A",
-              flex: 2,
               borderTopLeftRadius: 20,
               borderTopRightRadius: 20,
             },

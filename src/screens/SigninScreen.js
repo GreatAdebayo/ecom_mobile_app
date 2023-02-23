@@ -64,7 +64,6 @@ const SignInScreen = ({ navigation }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
-            flex: 3,
             alignItems: "center",
             justifyContent: "center",
           }}
@@ -112,11 +111,10 @@ const SignInScreen = ({ navigation }) => {
           }) => (
             <View
               style={[
-                tw`p-8 mt-10`,
+                tw`p-8 mt-10 h-full`,
                 {
                   backgroundColor:
                     colorScheme === "light" ? "white" : "#1A1A1A",
-                  flex: 2,
                   borderTopLeftRadius: 20,
                   borderTopRightRadius: 20,
                 },
@@ -231,7 +229,12 @@ const SignInScreen = ({ navigation }) => {
                 </Text>
               )}
 
-              <View style={tw`mt-3`}>
+              <Pressable
+                style={tw`mt-3`}
+                onPress={() => {
+                  navigation.navigate("password_reset");
+                }}
+              >
                 <Text
                   style={[
                     {
@@ -242,7 +245,7 @@ const SignInScreen = ({ navigation }) => {
                 >
                   Forgot Password?
                 </Text>
-              </View>
+              </Pressable>
 
               <TouchableOpacity
                 style={[

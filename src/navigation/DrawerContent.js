@@ -12,10 +12,12 @@ import {
 } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { GeneralContext } from "../contexts/general/state";
+import { AuthContext } from "../contexts/auth/state";
 
 const DrawerContent = () => {
   const { toggleColor, colorScheme } = useContext(GeneralContext);
   const navigation = useNavigation();
+  const { signOut } = useContext(AuthContext);
   const menu = [
     {
       title: "Profile",
@@ -100,7 +102,7 @@ const DrawerContent = () => {
       <Pressable
         style={tw`mt-50 mx-10`}
         onPress={() => {
-          navigation.navigate("signin");
+          signOut();
         }}
       >
         <View

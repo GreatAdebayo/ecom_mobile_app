@@ -1,7 +1,6 @@
 import { createContext, useReducer, useEffect } from "react";
 import generalReducer from "./reducer";
 import { SET_COLOR_MODE, IS_CONNECTED } from "./action";
-import NetInfo from "@react-native-community/netinfo";
 import { useColorScheme } from "react-native";
 
 export const GeneralContext = createContext();
@@ -22,21 +21,20 @@ export const GeneralState = (props) => {
     });
   };
 
-  useEffect(() => {
-    (async () => {
-      const response = await NetInfo.fetch();
-      dispatch({
-        type: IS_CONNECTED,
-        payload: response.isConnected,
-      });
-    })();
-  }, [state.isConnected]);
+  const updateConnection = (connection) => {
+    dispatch({
+      type: IS_CONNECTED,
+      payload: connection,
+    });
+  };
+
   return (
     <GeneralContext.Provider
       value={{
         toggleColor,
         colorScheme: state.colorScheme,
         isConnected: state.isConnected,
+        updateConnection,
       }}
     >
       {props.children}

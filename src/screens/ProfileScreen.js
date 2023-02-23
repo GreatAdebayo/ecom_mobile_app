@@ -6,9 +6,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
 import { GeneralContext } from "../contexts/general/state";
+import { AuthContext } from "../contexts/auth/state";
 
 const ProfileScreen = ({ navigation }) => {
   const { colorScheme } = useContext(GeneralContext);
+  const { userInfo } = useContext(AuthContext);
+
   return (
     <SafeAreaView
       style={{
@@ -86,7 +89,7 @@ const ProfileScreen = ({ navigation }) => {
                   },
                 ]}
               >
-                Rosina Doe
+                {userInfo && userInfo.id}
               </Text>
             </View>
             <View style={[tw`mt-3`, { flexDirection: "row" }]}>

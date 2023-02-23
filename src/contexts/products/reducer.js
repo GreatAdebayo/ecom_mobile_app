@@ -27,6 +27,12 @@ import {
   NEW_ORDER_LOADING,
   NEW_ORDER_SUCCESS,
   NEW_ORDER_FAILED,
+  FETCH_ORDERS_LOADING,
+  FETCH_ORDERS_SUCCESS,
+  FETCH_ORDERS_FAILED,
+  FETCH_ORDER_DETAILS_LOADING,
+  FETCH_ORDER_DETAILS_SUCCESS,
+  FETCH_ORDER_DETAILS_FAILED,
 } from "./action";
 
 const productReducer = (state, action) => {
@@ -197,6 +203,51 @@ const productReducer = (state, action) => {
         order: {},
         newOrderErrMsg: { msg: action.payload, type: "bad" },
       };
+
+    case FETCH_ORDERS_LOADING:
+      return {
+        ...state,
+        fetchOrdersLoading: true,
+      };
+
+    case FETCH_ORDERS_SUCCESS:
+      return {
+        ...state,
+        fetchOrdersLoading: false,
+        orders: action.payload,
+        fetchOrdersErrMsg: {},
+      };
+
+    case FETCH_ORDERS_FAILED:
+      return {
+        ...state,
+        fetchOrdersLoading: false,
+        orders: [],
+        fetchOrdersErrMsg: { msg: action.payload, type: "bad" },
+      };
+
+    case FETCH_ORDER_DETAILS_LOADING:
+      return {
+        ...state,
+        fetchOrderDetailsLoading: true,
+      };
+
+    case FETCH_ORDER_DETAILS_SUCCESS:
+      return {
+        ...state,
+        fetchOrderDetailsLoading: false,
+        orderDetails: action.payload,
+        fetchOrderDetailsErrMsg: {},
+      };
+
+    case FETCH_ORDER_DETAILS_FAILED:
+      return {
+        ...state,
+        fetchOrderDetailsLoading: false,
+        orderDetails: [],
+        fetchOrderDetailsErrMsg: { msg: action.payload, type: "bad" },
+      };
+
     default:
       return state;
   }

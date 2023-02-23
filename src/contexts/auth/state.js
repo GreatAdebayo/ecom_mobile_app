@@ -77,11 +77,11 @@ export const AuthState = (props) => {
     if (token !== null) {
       setAuthToken(token);
       try {
-        let res = await axios.get(`${baseUrl}user/private`);
-        const { data } = res.data;
+        let res = await axios.get(`${baseUrl}/user`);
+        const { user } = res.data;
         dispatch({
           type: LOAD_USER,
-          payload: data,
+          payload: user,
         });
       } catch (error) {
         const { data } = error.response;
@@ -225,10 +225,9 @@ export const AuthState = (props) => {
     setSubmitting();
     try {
       const res = await axios.get(`${userServiceUrl}passwordreset/${email}`);
-      const { data } = res;
       dispatch({
         type: CHECKEMAIL_SUCCESS,
-        payload: { msg: data.message, email: data.data },
+        payload: { msg: res.data.message, email: res.data.email },
       });
     } catch (error) {
       const { data } = error.response;
@@ -246,12 +245,12 @@ export const AuthState = (props) => {
     }
   };
 
-  const updatePassword = async (values, email) => {
+  const updatePassword = async (values) => {
     setSubmitting();
     try {
       const res = await axios.put(
-        `${baseUrl}passwordreset/${email}`,
-        { code: parseInt(values.code), password: values.password },
+        `${userServiceUrl}passwordreset`,
+        { ...values, code: parseInt(values.code) },
         config
       );
       const { data } = res;
